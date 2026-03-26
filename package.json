@@ -1,7 +1,7 @@
 {
-  "name": "idea-refinery",
+  "name": "topgun",
   "version": "0.1.0",
-  "description": "AI 认知提纯器 - 基于 Tauri 的桌面应用",
+  "description": "顶级思维 - 基于 Tauri 的桌面应用",
   "license": "MIT",
   "type": "module",
   "scripts": {

@@ -1,4 +1,4 @@
-﻿//! Utility functions for the Idea Refinery backend.
+﻿//! Utility functions for the TopGun backend.
 //!
 //! Contains pure helper functions for text processing and
 //! question generation that are shared across command handlers.

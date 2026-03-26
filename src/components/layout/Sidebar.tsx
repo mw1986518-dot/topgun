@@ -48,7 +48,7 @@ export default function Sidebar({
             <Cpu size={16} className="text-[var(--text-primary)]" />
           </div>
           <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-            AI 认知推演器
+            顶级思维
           </span>
         </div>
 

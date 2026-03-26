@@ -1,4 +1,4 @@
-﻿//! AI 认知提纯器 (Idea Refinery)
+﻿//! 顶级思维 (TopGun)
 //!
 //! 基于 Tauri + React 的多智能体并发推演决策工具。
 //!

@@ -1,5 +1,5 @@
 ﻿/**
- * Shared type definitions for the Idea Refinery frontend.
+ * Shared type definitions for the TopGun frontend.
  * All types mirror the Rust backend structs (state/mod.rs, framework/mod.rs, config/mod.rs).
  */
 
