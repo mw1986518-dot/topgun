@@ -29,6 +29,8 @@ pub struct AppConfig {
     pub max_retries: u32,
     /// Initial retry delay in milliseconds
     pub retry_delay_ms: u64,
+    /// Maximum reasoning iterations (3-6)
+    pub max_iterations: u32,
     /// All available providers users can switch/test individually.
     pub providers: Vec<LlmProviderConfig>,
     /// Currently selected provider id.
@@ -116,6 +118,7 @@ impl AppConfig {
             enable_retry: true,
             max_retries: 3,
             retry_delay_ms: 1000,
+            max_iterations: 3,
             providers: vec![LlmProviderConfig::new_default()],
             selected_provider_id: "provider_1".to_string(),
         }
@@ -193,6 +196,11 @@ impl AppConfig {
         if self.max_retries > 10 {
             return Err(AppError::ConfigValidation(
                 "Max retries cannot exceed 10".to_string(),
+            ));
+        }
+        if self.max_iterations < 3 || self.max_iterations > 6 {
+            return Err(AppError::ConfigValidation(
+                "Max iterations must be between 3 and 6".to_string(),
             ));
         }
         self.validate_provider_catalog()?;

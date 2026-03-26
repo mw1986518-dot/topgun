@@ -417,6 +417,7 @@ export async function installTauriMock(page: Page) {
           enable_retry: true,
           max_retries: 3,
           retry_delay_ms: 1000,
+          max_iterations: 3,
           enable_fallback: true,
           fallback_base_url: "https://mock-fallback.local",
           fallback_api_key: "mock-fallback-key",

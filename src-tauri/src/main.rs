@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    idea_refinery_lib::run()
+    topgun_lib::run()
 }

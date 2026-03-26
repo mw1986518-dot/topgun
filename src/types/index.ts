@@ -120,6 +120,7 @@ export interface AppConfig {
   enable_retry: boolean;
   max_retries: number;
   retry_delay_ms: number;
+  max_iterations: number;
   providers: LlmProviderConfig[];
   selected_provider_id: string;
 }

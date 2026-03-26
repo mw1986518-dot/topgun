@@ -75,6 +75,34 @@ export default function SettingsAdvancedSection({
             }
           />
         </div>
+
+        <div>
+          <label
+            className="block text-sm font-medium mb-1"
+            style={{ color: "var(--color-text-secondary)" }}
+          >
+            推演轮数
+          </label>
+          <input
+            type="number"
+            value={config.max_iterations}
+            onChange={(event) =>
+              updateConfig("max_iterations", Math.min(6, Math.max(3, parseInt(event.target.value, 10) || 3)))
+            }
+            min={3}
+            max={6}
+            className="w-full px-3 py-2 rounded-lg focus:outline-none focus:ring-2"
+            style={
+              {
+                ...inputStyle,
+                "--tw-ring-color": "var(--color-accent)",
+              } as CSSProperties
+            }
+          />
+          <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
+            多智能体交叉质询的最大轮数（3-6轮）
+          </p>
+        </div>
       </div>
 
       <div className="flex items-center gap-2">
