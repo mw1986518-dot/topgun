@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Backgrounds */
+  --bg-primary: #000000;
+  --bg-secondary: #000000;
+  --bg-tertiary: #001100;
+  --bg-hover: #113311;
+
+  /* Text */
+  --text-primary: #33ff00;
+  --text-secondary: #22cc00;
+  --text-muted: #118811;
+
+  /* Accent Colors */
+  --accent-blue: #33ff00;
+  --accent-green: #33ff00;
+  --accent-purple: #33ff00;
+  --accent-orange: #33ff00;
+  --accent-red: #33ff00;
+  --accent-cyan: #33ff00;
+
+  /* Borders */
+  --border-color: #33ff00;
+  --border-hover: #ffffff;
+
+  /* Radius */
+  --radius: 0px;
+
+  /* Legacy */
+  --notion-bg: var(--bg-primary);
+  --notion-sidebar: var(--bg-secondary);
+  --notion-text: var(--text-primary);
+  --notion-text-gray: var(--text-secondary);
+  --notion-text-light: var(--text-muted);
+  --notion-hover: var(--bg-hover);
+  --notion-border: var(--border-color);
+  --color-accent: var(--accent-blue);
+  --color-accent-glow: rgba(51, 255, 0, 0.2);
+  --accent-primary: var(--accent-blue);
+
+  /* New Component Mappings */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-card: var(--bg-secondary);
+  --color-border: var(--border-color);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'VT323', monospace !important;
+  font-size: 18px;
+  line-height: 1.5;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 0 0 5px rgba(51, 255, 0, 0.4);
+}
+
+* {
+  font-family: 'VT323', monospace !important;
+  border-color: #33ff00 !important;
+}
+
+/* Force terminal scale proportions */
+html, body, #root {
+  font-size: 20px !important;
+}
+
+.text-xs, .text-\[11px\] { font-size: 1.0rem !important; line-height: 1.4 !important; }
+.text-sm, .text-\[13px\] { font-size: 1.15rem !important; line-height: 1.4 !important; }
+.text-base, .text-\[15px\] { font-size: 1.3rem !important; line-height: 1.5 !important; }
+.text-lg { font-size: 1.5rem !important; line-height: 1.5 !important; }
+.text-xl { font-size: 1.7rem !important; line-height: 1.4 !important; }
+.text-2xl { font-size: 1.95rem !important; line-height: 1.3 !important; }
+.text-3xl { font-size: 2.3rem !important; line-height: 1.2 !important; }
+.text-4xl { font-size: 2.7rem !important; line-height: 1.2 !important; }
+.text-5xl { font-size: 3.2rem !important; line-height: 1.2 !important; }
+
+/* Force remove rounded corners for terminal look */
+.rounded, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl, .rounded-full {
+  border-radius: 0 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+/* Add CRT Scanlines */
+body::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(0,0,0,0.15) 50%,
+      rgba(0,0,0,0.15)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+.glass {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.glass-light {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.25s ease-out;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 33%, rgba(255,255,255,0.03) 50%, transparent 66%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+.prose-invert {
+  --tw-prose-body: var(--text-primary);
+  --tw-prose-headings: var(--text-primary);
+  --tw-prose-links: var(--accent-blue);
+  --tw-prose-code: var(--accent-cyan);
+}
+
+.prose-invert pre {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.prose-invert code {
+  color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.1);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+.prose-invert pre code {
+  color: var(--text-primary);
+  background: transparent;
+  padding: 0;
+}
+
+.mask-bottom {
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+.glow-text {
+  text-shadow: 0 0 8px currentColor;
+}
