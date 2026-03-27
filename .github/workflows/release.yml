@@ -10,6 +10,9 @@ on:
         required: true
         default: 'v0.1.2'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     strategy:
@@ -19,11 +22,9 @@ jobs:
           - platform: 'macos-latest'
             target: 'aarch64-apple-darwin'
             name: 'macOS (Apple Silicon)'
-            ext: 'dmg'
           - platform: 'macos-latest'
             target: 'x86_64-apple-darwin'
             name: 'macOS (Intel)'
-            ext: 'dmg'
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -65,7 +66,6 @@ jobs:
           releaseBody: 'See assets for downloads.'
           releaseDraft: false
           prerelease: false
-          target: ${{ matrix.target }}
           args: --target ${{ matrix.target }}
 
       - name: Upload release assets
