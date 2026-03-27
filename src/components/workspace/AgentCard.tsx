@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Loader2, Maximize2, X } from "lucide-react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -12,18 +13,20 @@ interface AgentCardProps {
   framework: Framework | undefined;
 }
 
-const statusConfig: Record<AgentStatus, { color: string; bg: string; label: string }> = {
-  idle: { color: "#71717a", bg: "rgba(113, 113, 122, 0.15)", label: "\u7A7A\u95F2" },
-  thinking: { color: "#3b82f6", bg: "rgba(59, 130, 246, 0.15)", label: "\u63A8\u7406\u4E2D" },
-  pass: { color: "#22c55e", bg: "rgba(34, 197, 94, 0.15)", label: "\u901A\u8FC7" },
-  objection: { color: "#ef4444", bg: "rgba(239, 68, 68, 0.15)", label: "\u5F02\u8BAE" },
-  patching: { color: "#f97316", bg: "rgba(249, 115, 22, 0.15)", label: "\u4FEE\u8865\u4E2D" },
-  complete: { color: "#22c55e", bg: "rgba(34, 197, 94, 0.15)", label: "\u5B8C\u6210" },
+const statusStyles: Record<AgentStatus, { color: string; bg: string }> = {
+  idle: { color: "#71717a", bg: "rgba(113, 113, 122, 0.15)" },
+  thinking: { color: "#3b82f6", bg: "rgba(59, 130, 246, 0.15)" },
+  pass: { color: "#22c55e", bg: "rgba(34, 197, 94, 0.15)" },
+  objection: { color: "#ef4444", bg: "rgba(239, 68, 68, 0.15)" },
+  patching: { color: "#f97316", bg: "rgba(249, 115, 22, 0.15)" },
+  complete: { color: "#22c55e", bg: "rgba(34, 197, 94, 0.15)" },
 };
 
 export default function AgentCard({ agent, framework }: AgentCardProps) {
+  const { t } = useTranslation('agent');
   const [isExpanded, setIsExpanded] = useState(false);
-  const status = statusConfig[agent.status];
+  const statusStyle = statusStyles[agent.status];
+  const statusLabel = t(`status.${agent.status}`);
   const typedContent = useTypewriter(agent.content, 5, 12);
 
   return (
@@ -43,7 +46,7 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
         }}
       >
         {/* Status bar */}
-        <div className="h-0.5" style={{ background: status.color }} />
+        <div className="h-0.5" style={{ background: statusStyle.color }} />
 
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-2.5">
@@ -59,14 +62,14 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
 
           <div className="flex items-center gap-1.5 flex-shrink-0">
             {agent.status === "thinking" && (
-              <Loader2 size={12} className="animate-spin" style={{ color: status.color }} />
+              <Loader2 size={12} className="animate-spin" style={{ color: statusStyle.color }} />
             )}
             <div
               className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium"
-              style={{ background: status.bg, color: status.color }}
+              style={{ background: statusStyle.bg, color: statusStyle.color }}
             >
-              <div className="w-1 h-1 rounded-full" style={{ background: status.color }} />
-              {status.label}
+              <div className="w-1 h-1 rounded-full" style={{ background: statusStyle.color }} />
+              {statusLabel}
             </div>
           </div>
         </div>
@@ -89,9 +92,9 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
               }}
             >
               {agent.status === "thinking" ? (
-                <span className="animate-shimmer">\u6B63\u5728\u601D\u8003\u4E0E\u63A8\u7406...</span>
+                <span className="animate-shimmer">{t('thinking')}</span>
               ) : (
-                "\u7B49\u5F85\u5524\u9192"
+                t('waitingAwakening')
               )}
             </div>
           )}
@@ -102,7 +105,7 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
           <div className="px-4 pb-3">
             <div className="flex items-center gap-1.5 text-[11px]" style={{ color: "var(--accent-red)" }}>
               <div className="w-1 h-1 rounded-full" style={{ background: "var(--accent-red)" }} />
-              {agent.objections.length} \u6761\u5F02\u8BAE\u5F85\u5904\u7406
+              {t('objectionsPending', { count: agent.objections.length })}
             </div>
           </div>
         )}
@@ -149,10 +152,10 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
                 </span>
                 <div
                   className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium"
-                  style={{ background: status.bg, color: status.color }}
+                  style={{ background: statusStyle.bg, color: statusStyle.color }}
                 >
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: status.color }} />
-                  {status.label}
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: statusStyle.color }} />
+                  {statusLabel}
                 </div>
               </div>
               <button
@@ -170,7 +173,7 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
               style={{ background: "var(--bg-primary)" }}
             >
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {agent.content || "\u6682\u65E0\u63A8\u7406\u5185\u5BB9..."}
+                {agent.content || t('noContent')}
               </ReactMarkdown>
             </div>
           </div>

@@ -1,4 +1,5 @@
 ﻿import { useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { GitBranch, Box, Flag } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -17,18 +18,19 @@ interface VersionEntry {
 }
 
 export default function IterationView({ state, frameworks }: IterationViewProps) {
+  const { t } = useTranslation("workspace");
   const versions = useMemo<VersionEntry[]>(() => {
     const list: VersionEntry[] = [
       {
         id: "0.1",
-        label: "v0.1 议题重塑",
-        desc: "澄清后的问题定义",
+        label: t("iterationView.versions.v01Label"),
+        desc: t("iterationView.versions.v01Desc"),
         dotColor: "var(--color-text-muted)",
       },
       {
         id: "1.0",
-        label: "v1.0 发散初稿",
-        desc: "多框架并发推演输出",
+        label: t("iterationView.versions.v10Label"),
+        desc: t("iterationView.versions.v10Desc"),
         dotColor: "var(--color-phase-diverge)",
       },
     ];
@@ -43,8 +45,8 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
     for (let i = 2; i <= maxVersion; i++) {
       list.push({
         id: `${i}.0`,
-        label: `v${i}.0 修补版本`,
-        desc: `第 ${i - 1} 轮交叉质询后的修订`,
+        label: t("iterationView.versions.patchLabel", { version: i }),
+        desc: t("iterationView.versions.patchDesc", { round: i - 1 }),
         dotColor: "var(--color-phase-patch)",
       });
     }
@@ -52,14 +54,14 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
     if (state?.consensus_output) {
       list.push({
         id: "final",
-        label: "最终共识",
-        desc: "综合收敛后的最终报告",
+        label: t("iterationView.versions.finalLabel"),
+        desc: t("iterationView.versions.finalDesc"),
         dotColor: "var(--color-phase-consensus)",
       });
     }
 
     return list;
-  }, [state]);
+  }, [state, t]);
 
   const [activeVersion, setActiveVersion] = useState("1.0");
 
@@ -72,7 +74,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
       return (
         <div className="prose prose-invert prose-sm max-w-none">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {state?.reframed_issue || state?.topic || "等待议题解析..."}
+            {state?.reframed_issue || state?.topic || t("iterationView.waitingTopic")}
           </ReactMarkdown>
         </div>
       );
@@ -85,7 +87,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
             className="flex items-center justify-center p-10"
             style={{ color: "var(--color-text-muted)" }}
           >
-            推演尚未产出内容...
+            {t("iterationView.noDivergenceOutput")}
           </div>
         );
       }
@@ -113,7 +115,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
                 </div>
                 <div className="prose prose-invert prose-sm max-w-none text-[13px] leading-relaxed">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {agent.content || "暂无内容"}
+                    {agent.content || t("iterationView.noContent")}
                   </ReactMarkdown>
                 </div>
               </div>
@@ -131,7 +133,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
             className="flex items-center justify-center p-10"
             style={{ color: "var(--color-text-muted)" }}
           >
-            修补尚未完成...
+            {t("iterationView.patchNotComplete")}
           </div>
         );
       }
@@ -146,7 +148,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
             className="flex items-center justify-center p-10"
             style={{ color: "var(--color-text-muted)" }}
           >
-            暂无框架完成第 {targetVersion - 1} 轮修补
+            {t("iterationView.noFrameworkCompletedPatch", { round: targetVersion - 1 })}
           </div>
         );
       }
@@ -183,7 +185,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
                 </div>
                 <div className="prose prose-invert prose-sm max-w-none text-[13px] leading-relaxed">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {agent.content || "暂无内容"}
+                    {agent.content || t("iterationView.noContent")}
                   </ReactMarkdown>
                 </div>
               </div>
@@ -197,7 +199,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
       return (
         <div className="prose prose-invert prose-sm max-w-none leading-relaxed">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {state?.consensus_output || "最终共识仍在生成中，请先查看各版本方案。"}
+            {state?.consensus_output || t("iterationView.consensusGenerating")}
           </ReactMarkdown>
         </div>
       );
@@ -231,7 +233,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
             className="font-bold text-sm"
             style={{ color: "var(--color-text-primary)" }}
           >
-            迭代历史
+            {t("iterationView.historyTitle")}
           </span>
           <GitBranch size={14} style={{ color: "var(--color-text-muted)" }} />
         </div>
@@ -319,7 +321,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
               color: "var(--color-text-muted)",
             }}
           >
-            版本 {activeVersion === "final" ? "最终" : activeVersion}
+            {activeVersion === "final" ? t("iterationView.versionFinal") : t("iterationView.version", { version: activeVersion })}
           </span>
         </div>
         <div className="p-6 flex-1 overflow-y-auto custom-scrollbar">{renderContent()}</div>

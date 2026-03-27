@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Activity, AlertCircle, Save } from "lucide-react";
 
 interface TestResult {
@@ -19,6 +20,7 @@ export default function SettingsFeedbackMessages({
   testResult,
   success,
 }: SettingsFeedbackMessagesProps) {
+  const { t } = useTranslation("settings");
   return (
     <>
       {error && (
@@ -63,7 +65,7 @@ export default function SettingsFeedbackMessages({
           }}
         >
           <Save size={20} className="flex-shrink-0" />
-          <span className="text-sm">配置已保存</span>
+          <span className="text-sm">{t("saved")}</span>
         </div>
       )}
     </>

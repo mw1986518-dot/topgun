@@ -1,0 +1,17 @@
+{
+  "title": "Thinking Frameworks",
+  "description": "Manage built-in and custom thinking frameworks",
+  "builtinFrameworks": "Built-in Frameworks",
+  "customFrameworks": "Custom Frameworks",
+  "noCustomFrameworks": "No custom frameworks",
+  "createFirst": "Create your first framework",
+  "createFramework": "New Framework",
+  "editFramework": "Edit Framework",
+  "deleteConfirm": "Are you sure you want to delete this custom framework?",
+  "fields": {
+    "name": "Name",
+    "icon": "Icon",
+    "description": "Description",
+    "systemPrompt": "System Prompt"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "phase": {
+    "input": "0. 输入",
+    "problemReshaping": "1. 重塑",
+    "multiAgent": "2. 推演",
+    "consensus": "3. 共识"
+  },
+  "topicInput": {
+    "title": "新建推演议题",
+    "description": "输入你的初始问题、业务难点或方案草稿，系统会组织多个思维框架并发推演，输出可执行结论。",
+    "placeholder": "例如：两个客户都不愿意签年度保底协议，如何在不让利过多的前提下推进成交？",
+    "attachment": "支持附件（预留）",
+    "startAnalysis": "开始深度分析"
+  },
+  "topNav": {
+    "running": "推演进行中...",
+    "startReasoning": "开始推演",
+    "openHistory": "打开历史记录",
+    "history": "历史记录"
+  },
+  "reasoningPanel": {
+    "title": "阶段 1-3：多智能体推演与仲裁",
+    "viewingHistory": "正在查看历史阶段",
+    "sandboxView": "沙盘视图",
+    "iterationView": "迭代视图",
+    "round": "第 {{count}} 轮：",
+    "divergence": "发散推演中...",
+    "examination": "交叉质询中...",
+    "patching": "修补迭代中..."
+  },
+  "problemBrief": {
+    "title": "阶段 2：问题重塑对话",
+    "description": "这一阶段只做需求解构与问题界定，不直接给结论方案。完成澄清后，请手动点击「生成专家级问题简报」。",
+    "waitingFirst": "等待 Problem Definer 发起第一轮追问...",
+    "identified": "已识别「专家级问题简报 + 推荐专家」双代码块，可以进入下一步框架选择。",
+    "tip": "提示：系统不会自动收口。请先通过对话补齐目标、约束、红线和盲区，再手动生成「专家级问题简报」。",
+    "briefGenerated": "简报已生成，输入框已禁用。",
+    "inputPlaceholder": "继续补充你的上下文、约束和真实目标...",
+    "generateBrief": "生成专家级问题简报"
+  },
+  "frameworkSelection": {
+    "title": "阶段 2：框架选择",
+    "description": "系统会基于重塑信息给出推荐框架，请选择参与推演的思维框架（建议 3~5 个）。",
+    "recommended": "推荐",
+    "selected": "已选择 {{count}} 个框架",
+    "lockAndRun": "锁定阵容并推演",
+    "originalProblem": "原始问题：",
+    "reshapedProblem": "重塑议题：",
+    "editHint": "这里只保留原始问题和 AI 重塑议题。修改后会直接用于后续推演。",
+    "clickToModify": "点击修改",
+    "selectFramework": "选择此框架进行推演",
+    "selectedFramework": "已选择 {{name}}",
+    "unselectedFramework": "未选择 {{name}}"
+  },
+  "consensus": {
+    "title": "阶段 4：最终共识与交付",
+    "reportTab": "共识报告",
+    "actionPlanTab": "落地方案",
+    "generateActionPlan": "生成落地方案",
+    "answered": "已回答",
+    "questions": "个问题",
+    "relatedAction": "关联行动：",
+    "exportMarkdown": "导出 Markdown",
+    "toleratedRisks": "容忍风险清单（临时接受，非最终共识）"
+  },
+  "actionPlan": {
+    "title": "生成落地方案",
+    "description": "回答以下问题，帮助我们生成可执行的落地方案",
+    "progressLabel": "进度",
+    "progress": "{{current}} / {{total}} 个问题",
+    "relatedAction": "关联行动：",
+    "inputPlaceholder": "输入你的回答...",
+    "processing": "处理中",
+    "send": "发送"
+  },
+  "diagnostics": {
+    "title": "会话诊断",
+    "lastRunCompleted": "最近运行完成：{{date}}",
+    "totalTime": "总耗时",
+    "reasoningRuns": "当前会话推演次数：{{count}}",
+    "historyCount": "历史记录条数：{{count}}",
+    "failureCount": "失败次数",
+    "failureBreakdown": "发散 {{divergence}} / 质询 {{examination}} / 修补 {{patch}} / 共识 {{consensus}}",
+    "fallbackCount": "降级触发",
+    "fallbackBreakdown": "修复解析 {{parserRepair}} / 文本兜底 {{textFallback}} / 共识兜底 {{consensusFallback}}",
+    "phases": {
+      "divergence": "发散",
+      "examination": "质询",
+      "patch": "修补",
+      "consensus": "共识"
+    }
+  },
+  "iterationView": {
+    "historyTitle": "迭代历史",
+    "version": "版本 {{version}}",
+    "versionFinal": "版本 最终",
+    "versions": {
+      "v01Label": "v0.1 议题重塑",
+      "v01Desc": "澄清后的问题定义",
+      "v10Label": "v1.0 发散初稿",
+      "v10Desc": "多框架并发推演输出",
+      "patchLabel": "v{{version}}.0 修补版本",
+      "patchDesc": "第 {{round}} 轮交叉质询后的修订",
+      "finalLabel": "最终共识",
+      "finalDesc": "综合收敛后的最终报告"
+    },
+    "waitingTopic": "等待议题解析...",
+    "noContent": "暂无内容",
+    "noDivergenceOutput": "推演尚未产出内容...",
+    "patchNotComplete": "修补尚未完成...",
+    "noFrameworkCompletedPatch": "暂无框架完成第 {{round}} 轮修补",
+    "consensusGenerating": "最终共识仍在生成中，请先查看各版本方案。"
+  }
+}

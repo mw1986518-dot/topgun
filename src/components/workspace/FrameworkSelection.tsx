@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Check, Loader2, Maximize2, X, Zap } from "lucide-react";
 import type { Framework } from "../../types";
 
@@ -12,7 +13,7 @@ interface FrameworkSelectionProps {
 }
 
 /**
- * 组织“可编辑重塑议题正文”。
+ * 组织"可编辑重塑议题正文"。
  *
  * 你可以把它理解成一个模板拼接器：
  * - 先放原始问题；
@@ -34,7 +35,7 @@ function buildEditableReframedContext(
 
 /**
  * 兼容老版本 custom_user_prompt：
- * 旧版里可能有你不想要的“请你严格基于以下上下文...”说明段，
+ * 旧版里可能有你不想要的"请你严格基于以下上下文..."说明段，
  * 这里会自动抽取核心内容，转成新的三段结构，避免旧内容继续污染 UI。
  */
 function normalizeInitialEditableContext(
@@ -80,6 +81,7 @@ export default function FrameworkSelection({
   initialUserPrompt,
   onSelect,
 }: FrameworkSelectionProps) {
+  const { t } = useTranslation("workspace");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [submitting, setSubmitting] = useState(false);
   const [expandedFramework, setExpandedFramework] = useState<Framework | null>(null);
@@ -154,12 +156,12 @@ export default function FrameworkSelection({
           className="text-xl font-bold tracking-tight"
           style={{ color: "var(--color-text-primary)" }}
         >
-          阶段 2：框架选择
+          {t("frameworkSelection.title")}
         </h3>
       </div>
 
       <p className="text-[15px]" style={{ color: "var(--color-text-secondary)" }}>
-        系统会基于重塑信息给出推荐框架，请选择参与推演的思维框架（建议 3~5 个）。
+        {t("frameworkSelection.description")}
       </p>
 
       {reframedIssue && (
@@ -173,7 +175,7 @@ export default function FrameworkSelection({
           <div className="flex items-center justify-between gap-3 mb-3">
             <div className="flex items-center gap-2" style={{ color: "#F59E0B" }}>
               <Check size={18} />
-              <h4 className="font-bold">重塑议题</h4>
+              <h4 className="font-bold">{t("frameworkSelection.reshapedProblem").replace("：", "")}</h4>
             </div>
             <button
               type="button"
@@ -184,12 +186,12 @@ export default function FrameworkSelection({
                 border: "1px solid rgba(245, 158, 11, 0.35)",
               }}
             >
-              {editingReframedContext ? "完成修改" : "点击修改"}
+              {editingReframedContext ? t("confirm", { ns: "common" }) : t("frameworkSelection.clickToModify")}
             </button>
           </div>
 
           <p className="text-xs mb-3" style={{ color: "var(--color-text-muted)" }}>
-            这里只保留原始问题和 AI 重塑议题。修改后会直接用于后续推演。
+            {t("frameworkSelection.editHint", { defaultValue: "这里只保留原始问题和 AI 重塑议题。修改后会直接用于后续推演。" })}
           </p>
 
           {editingReframedContext ? (
@@ -249,7 +251,7 @@ export default function FrameworkSelection({
                           border: "1px solid rgba(34, 197, 94, 0.3)",
                         }}
                       >
-                        推荐
+                        {t("frameworkSelection.recommended")}
                       </span>
                     )}
                     {isSelected && (
@@ -285,11 +287,7 @@ export default function FrameworkSelection({
           className="text-[15px] font-medium"
           style={{ color: "var(--color-text-secondary)" }}
         >
-          已选择
-          <span className="font-bold mx-1" style={{ color: "var(--color-accent)" }}>
-            {selectedIds.length}
-          </span>
-          个框架
+          {t("frameworkSelection.selected", { count: selectedIds.length })}
         </span>
 
         <button
@@ -305,12 +303,12 @@ export default function FrameworkSelection({
           {submitting ? (
             <>
               <Loader2 size={18} className="animate-spin" />
-              提交中...
+              {t("submitting", { ns: "common" })}
             </>
           ) : (
             <>
               <Check size={18} />
-              锁定阵容并推演
+              {t("frameworkSelection.lockAndRun")}
             </>
           )}
         </button>
@@ -336,7 +334,7 @@ export default function FrameworkSelection({
                 </span>
                 {recommended.includes(expandedFramework.id) && (
                   <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-900/40 text-yellow-500 border border-yellow-500/30 tracking-wider">
-                    推荐
+                    {t("frameworkSelection.recommended")}
                   </span>
                 )}
               </div>
@@ -349,7 +347,7 @@ export default function FrameworkSelection({
             </div>
 
             <div className="flex-1 p-6 md:p-8 overflow-y-auto text-[#E0E0E0] font-mono whitespace-pre-wrap text-sm leading-relaxed custom-scrollbar selection:bg-yellow-500/30">
-              <div className="text-yellow-500/50 mb-4"># 系统提示词</div>
+              <div className="text-yellow-500/50 mb-4"># System Prompt</div>
               <p className="mt-2 text-[var(--text-primary)]/80 leading-relaxed bg-[#1A1A1A] p-4 rounded border border-white/5 whitespace-pre-wrap font-mono text-xs">
                 {expandedFramework.system_prompt}
               </p>
@@ -360,4 +358,3 @@ export default function FrameworkSelection({
     </div>
   );
 }
-

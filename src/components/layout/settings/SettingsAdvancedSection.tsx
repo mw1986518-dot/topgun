@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { CSSProperties, Dispatch, SetStateAction } from "react";
 import type { AppConfig } from "../../../types";
 
@@ -7,14 +8,13 @@ interface SettingsAdvancedSectionProps {
   inputStyle: CSSProperties;
 }
 
-/**
- * 高级参数区块（超时、重试等）。
- */
 export default function SettingsAdvancedSection({
   config,
   setConfig,
   inputStyle,
 }: SettingsAdvancedSectionProps) {
+  const { t } = useTranslation("settings");
+
   const updateConfig = <K extends keyof AppConfig>(key: K, value: AppConfig[K]) => {
     setConfig((previous) => ({ ...previous, [key]: value }));
   };
@@ -22,7 +22,7 @@ export default function SettingsAdvancedSection({
   return (
     <div className="space-y-4 pt-4" style={{ borderTop: "1px solid var(--color-border)" }}>
       <h3 className="text-sm font-medium tracking-wide" style={{ color: "var(--color-text-muted)" }}>
-        高级设置
+        {t("advanced")}
       </h3>
 
       <div className="grid grid-cols-2 gap-4">
@@ -31,7 +31,7 @@ export default function SettingsAdvancedSection({
             className="block text-sm font-medium mb-1"
             style={{ color: "var(--color-text-secondary)" }}
           >
-            超时时间（秒）
+            {t("timeout.label")}
           </label>
           <input
             type="number"
@@ -56,7 +56,7 @@ export default function SettingsAdvancedSection({
             className="block text-sm font-medium mb-1"
             style={{ color: "var(--color-text-secondary)" }}
           >
-            最大重试次数
+            {t("maxRetries.label")}
           </label>
           <input
             type="number"
@@ -81,7 +81,7 @@ export default function SettingsAdvancedSection({
             className="block text-sm font-medium mb-1"
             style={{ color: "var(--color-text-secondary)" }}
           >
-            推演轮数
+            {t("maxIterations.label")}
           </label>
           <input
             type="number"
@@ -100,7 +100,7 @@ export default function SettingsAdvancedSection({
             }
           />
           <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
-            多智能体交叉质询的最大轮数（3-6轮）
+            {t("maxIterations.description")}
           </p>
         </div>
       </div>
@@ -118,7 +118,7 @@ export default function SettingsAdvancedSection({
           className="text-sm"
           style={{ color: "var(--color-text-primary)" }}
         >
-          启用指数退避重试（防止 429 限流）
+          {t("enableRetry.label")}
         </label>
       </div>
     </div>

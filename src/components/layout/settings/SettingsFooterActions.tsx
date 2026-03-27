@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Activity } from "lucide-react";
 
 interface SettingsFooterActionsProps {
@@ -9,9 +10,6 @@ interface SettingsFooterActionsProps {
   onSave: () => Promise<void>;
 }
 
-/**
- * 底部操作区（测试按钮 + 保存按钮）。
- */
 export default function SettingsFooterActions({
   saving,
   testing,
@@ -20,6 +18,8 @@ export default function SettingsFooterActions({
   onTestConnection,
   onSave,
 }: SettingsFooterActionsProps) {
+  const { t } = useTranslation("settings");
+
   return (
     <div
       className="flex justify-between items-center gap-3 px-6 py-4 flex-wrap"
@@ -36,7 +36,7 @@ export default function SettingsFooterActions({
           }}
         >
           <Activity size={18} />
-          {testing && testingMode === "provider" ? "测试中..." : "测试当前供应商"}
+          {testing && testingMode === "provider" ? t("testing", { ns: "common" }) : t("testConnection")}
         </button>
       </div>
 
@@ -49,7 +49,7 @@ export default function SettingsFooterActions({
             color: "var(--color-text-secondary)",
           }}
         >
-          取消
+          {t("cancel", { ns: "common" })}
         </button>
         <button
           onClick={() => void onSave()}
@@ -57,10 +57,9 @@ export default function SettingsFooterActions({
           className="px-4 py-2 rounded-lg text-[var(--text-primary)] disabled:opacity-50 cursor-pointer transition-all glow-accent"
           style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
         >
-          {saving ? "保存中..." : "保存配置"}
+          {saving ? t("saving", { ns: "common" }) : t("save", { ns: "common" })}
         </button>
       </div>
     </div>
   );
 }
-

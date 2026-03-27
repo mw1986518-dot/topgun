@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Activity, Timer, AlertTriangle, LifeBuoy } from "lucide-react";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
@@ -59,6 +60,7 @@ export default function SessionDiagnosticsCard({
   diagnostics,
   showHeader = true,
 }: SessionDiagnosticsCardProps) {
+  const { t } = useTranslation("workspace");
   // 如果历史快照是旧版本（没有 diagnostics），这里自动给默认值，保证 UI 不崩。
   const data = diagnostics ?? EMPTY_DIAGNOSTICS;
   const [historyEntryCount, setHistoryEntryCount] = useState<number | null>(null);
@@ -91,10 +93,10 @@ export default function SessionDiagnosticsCard({
   }, [data.reasoning_runs, data.last_run_completed_at]);
 
   const phaseRows = [
-    { label: "发散", value: data.phase_durations_ms.divergence_ms },
-    { label: "质询", value: data.phase_durations_ms.examination_ms },
-    { label: "修补", value: data.phase_durations_ms.patch_ms },
-    { label: "共识", value: data.phase_durations_ms.consensus_ms },
+    { labelKey: "diagnostics.phases.divergence", value: data.phase_durations_ms.divergence_ms },
+    { labelKey: "diagnostics.phases.examination", value: data.phase_durations_ms.examination_ms },
+    { labelKey: "diagnostics.phases.patch", value: data.phase_durations_ms.patch_ms },
+    { labelKey: "diagnostics.phases.consensus", value: data.phase_durations_ms.consensus_ms },
   ];
 
   return (
@@ -113,11 +115,11 @@ export default function SessionDiagnosticsCard({
               className="text-sm font-semibold"
               style={{ color: "var(--color-text-primary)" }}
             >
-              会话诊断
+              {t("diagnostics.title")}
             </h4>
           </div>
           <div className="text-xs" style={{ color: "var(--color-text-muted)" }}>
-            最近运行完成: {formatDate(data.last_run_completed_at)}
+            {t("diagnostics.lastRunCompleted", { date: formatDate(data.last_run_completed_at) })}
           </div>
         </div>
       )}
@@ -135,7 +137,7 @@ export default function SessionDiagnosticsCard({
             style={{ color: "var(--color-text-muted)" }}
           >
             <Timer size={14} />
-            总耗时
+            {t("diagnostics.totalTime")}
           </div>
           <div
             className="mt-1 text-base font-semibold"
@@ -144,10 +146,10 @@ export default function SessionDiagnosticsCard({
             {formatDuration(data.phase_durations_ms.total_ms)}
           </div>
           <div className="mt-1 text-xs" style={{ color: "var(--color-text-muted)" }}>
-            当前会话推演次数: {data.reasoning_runs}
+            {t("diagnostics.reasoningRuns", { count: data.reasoning_runs })}
           </div>
           <div className="mt-1 text-xs" style={{ color: "var(--color-text-muted)" }}>
-            历史记录条数: {historyEntryCount ?? "--"}
+            {t("diagnostics.historyCount", { count: historyEntryCount ?? "--" })}
           </div>
         </div>
 
@@ -163,7 +165,7 @@ export default function SessionDiagnosticsCard({
             style={{ color: "var(--color-text-muted)" }}
           >
             <AlertTriangle size={14} />
-            失败次数
+            {t("diagnostics.failureCount")}
           </div>
           <div
             className="mt-1 text-base font-semibold"
@@ -172,8 +174,12 @@ export default function SessionDiagnosticsCard({
             {data.failure_counts.total}
           </div>
           <div className="mt-1 text-xs" style={{ color: "var(--color-text-muted)" }}>
-            发散 {data.failure_counts.divergence} / 质询 {data.failure_counts.examination}{" "}
-            / 修补 {data.failure_counts.patch} / 共识 {data.failure_counts.consensus}
+            {t("diagnostics.failureBreakdown", {
+              divergence: data.failure_counts.divergence,
+              examination: data.failure_counts.examination,
+              patch: data.failure_counts.patch,
+              consensus: data.failure_counts.consensus
+            })}
           </div>
         </div>
 
@@ -189,7 +195,7 @@ export default function SessionDiagnosticsCard({
             style={{ color: "var(--color-text-muted)" }}
           >
             <LifeBuoy size={14} />
-            降级触发
+            {t("diagnostics.fallbackCount")}
           </div>
           <div
             className="mt-1 text-base font-semibold"
@@ -198,9 +204,11 @@ export default function SessionDiagnosticsCard({
             {data.fallback_counts.total}
           </div>
           <div className="mt-1 text-xs" style={{ color: "var(--color-text-muted)" }}>
-            修复解析 {data.fallback_counts.examination_parser_repair} / 文本兜底{" "}
-            {data.fallback_counts.examination_text_fallback} / 共识兜底{" "}
-            {data.fallback_counts.consensus_synthesizer_fallback}
+            {t("diagnostics.fallbackBreakdown", {
+              parserRepair: data.fallback_counts.examination_parser_repair,
+              textFallback: data.fallback_counts.examination_text_fallback,
+              consensusFallback: data.fallback_counts.consensus_synthesizer_fallback
+            })}
           </div>
         </div>
       </div>
@@ -208,7 +216,7 @@ export default function SessionDiagnosticsCard({
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {phaseRows.map((row) => (
           <div
-            key={row.label}
+            key={row.labelKey}
             className="rounded-md px-3 py-2"
             style={{
               background: "var(--color-bg-primary)",
@@ -216,7 +224,7 @@ export default function SessionDiagnosticsCard({
             }}
           >
             <div className="text-xs" style={{ color: "var(--color-text-muted)" }}>
-              {row.label}
+              {t(row.labelKey as "diagnostics.phases.divergence" | "diagnostics.phases.examination" | "diagnostics.phases.patch" | "diagnostics.phases.consensus")}
             </div>
             <div
               className="text-sm font-medium mt-0.5"

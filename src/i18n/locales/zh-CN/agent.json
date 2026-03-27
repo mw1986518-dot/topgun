@@ -1,0 +1,14 @@
+{
+  "status": {
+    "idle": "空闲",
+    "thinking": "推理中",
+    "pass": "通过",
+    "objection": "异议",
+    "patching": "修补中",
+    "complete": "完成"
+  },
+  "thinking": "正在思考与推理...",
+  "waitingAwakening": "等待唤醒",
+  "noContent": "暂无推理内容...",
+  "objectionsPending": "{{count}} 条异议待处理"
+}

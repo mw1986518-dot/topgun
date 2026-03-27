@@ -1,0 +1,14 @@
+{
+  "status": {
+    "idle": "Idle",
+    "thinking": "Thinking",
+    "pass": "Pass",
+    "objection": "Objection",
+    "patching": "Patching",
+    "complete": "Complete"
+  },
+  "thinking": "Thinking and reasoning...",
+  "waitingAwakening": "Waiting for activation",
+  "noContent": "No reasoning content yet...",
+  "objectionsPending": "{{count}} objections pending"
+}

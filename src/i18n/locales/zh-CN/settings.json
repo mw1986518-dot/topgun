@@ -1,0 +1,49 @@
+{
+  "title": "系统配置",
+  "llmConfig": "LLM API 配置",
+  "singleProviderNote": "每次推演任务只会使用当前选中的一个供应商 + 一个模型，不再自动主备轮转。",
+  "provider": {
+    "label": "供应商",
+    "current": "当前供应商",
+    "add": "新增",
+    "remove": "删除",
+    "defaultName": "默认供应商"
+  },
+  "name": {
+    "label": "供应商名称",
+    "placeholder": "例如：OpenAI / Gemini / DeepSeek"
+  },
+  "baseUrl": {
+    "label": "接口地址（Base URL）",
+    "placeholder": "https://api.openai.com/v1"
+  },
+  "apiKey": {
+    "label": "API Key",
+    "placeholder": "sk-..."
+  },
+  "model": {
+    "label": "模型名称（Model）",
+    "placeholder": "如：gpt-4o, gemini-pro"
+  },
+  "advanced": "高级设置",
+  "timeout": {
+    "label": "超时时间（秒）",
+    "description": "HTTP 请求超时时间"
+  },
+  "maxRetries": {
+    "label": "最大重试次数",
+    "description": "请求失败后的最大重试次数"
+  },
+  "maxIterations": {
+    "label": "推演轮数",
+    "description": "多智能体交叉质询的最大轮数（3-6轮）"
+  },
+  "enableRetry": {
+    "label": "启用指数退避重试",
+    "description": "防止 429 限流"
+  },
+  "testConnection": "测试当前供应商",
+  "connectionSuccess": "供应商「{{name}}」连通性测试成功",
+  "connectionFailed": "连接失败: {{error}}",
+  "saved": "配置已保存"
+}

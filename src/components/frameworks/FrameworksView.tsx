@@ -1,9 +1,11 @@
+import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Plus, Edit2, Trash2, X, Check } from "lucide-react";
 import type { Framework } from "../../types";
 
 export default function FrameworksView() {
+  const { t } = useTranslation("framework");
   const [frameworks, setFrameworks] = useState<Framework[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingFramework, setEditingFramework] = useState<Framework | null>(null);
@@ -63,7 +65,7 @@ export default function FrameworksView() {
   }
 
   async function handleDeleteFramework(id: string) {
-    if (!confirm("确定要删除这个自定义框架吗？")) return;
+    if (!confirm(t("deleteConfirm"))) return;
     try {
       await invoke("delete_custom_framework", { id });
       await loadFrameworks();
@@ -75,7 +77,7 @@ export default function FrameworksView() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-notion-text-gray">加载中...</div>
+        <div className="text-notion-text-gray">{t("loading", { ns: "common" })}</div>
       </div>
     );
   }
@@ -85,8 +87,8 @@ export default function FrameworksView() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-notion-text">思维框架库</h1>
-            <p className="text-notion-text-gray mt-1">管理内置和自定义的思维框架</p>
+            <h1 className="text-2xl font-bold text-notion-text">{t("title")}</h1>
+            <p className="text-notion-text-gray mt-1">{t("description")}</p>
           </div>
 
           <button
@@ -95,13 +97,13 @@ export default function FrameworksView() {
             style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
           >
             <Plus size={18} />
-            新建框架
+            {t("createFramework")}
           </button>
         </div>
 
         <section>
           <h2 className="text-sm font-medium text-notion-text-gray uppercase tracking-wide mb-4">
-            系统内置框架
+            {t("builtinFrameworks")}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {frameworks
@@ -129,20 +131,20 @@ export default function FrameworksView() {
 
         <section>
           <h2 className="text-sm font-medium text-notion-text-gray uppercase tracking-wide mb-4">
-            用户自定义框架
+            {t("customFrameworks")}
           </h2>
           {frameworks.filter((f) => !f.is_builtin).length === 0 ? (
             <div
               className="text-center py-12 rounded-lg"
               style={{ border: "2px dashed var(--color-border)" }}
             >
-              <p className="text-notion-text-gray">暂无自定义框架</p>
+              <p className="text-notion-text-gray">{t("noCustomFrameworks")}</p>
               <button
                 onClick={handleNewFramework}
                 className="mt-4 hover:underline cursor-pointer"
                 style={{ color: "var(--color-accent)" }}
               >
-                创建第一个框架
+                {t("createFirst")}
               </button>
             </div>
           ) : (
@@ -197,7 +199,7 @@ export default function FrameworksView() {
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-notion-border">
               <h2 className="text-xl font-semibold text-notion-text">
-                {editingFramework.id.startsWith("custom-") ? "新建框架" : "编辑框架"}
+                {editingFramework.id.startsWith("custom-") ? t("createFramework") : t("editFramework")}
               </h2>
               <button
                 onClick={() => setShowEditor(false)}
@@ -210,7 +212,7 @@ export default function FrameworksView() {
             <div className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-notion-text mb-1">名称</label>
+                  <label className="block text-sm font-medium text-notion-text mb-1">{t("fields.name")}</label>
                   <input
                     type="text"
                     value={editingFramework.name}
@@ -227,7 +229,7 @@ export default function FrameworksView() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-notion-text mb-1">图标</label>
+                  <label className="block text-sm font-medium text-notion-text mb-1">{t("fields.icon")}</label>
                   <input
                     type="text"
                     value={editingFramework.icon}
@@ -245,7 +247,7 @@ export default function FrameworksView() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-notion-text mb-1">描述</label>
+                <label className="block text-sm font-medium text-notion-text mb-1">{t("fields.description")}</label>
                 <input
                   type="text"
                   value={editingFramework.description}
@@ -262,7 +264,7 @@ export default function FrameworksView() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-notion-text mb-1">系统提示词</label>
+                <label className="block text-sm font-medium text-notion-text mb-1">{t("fields.systemPrompt")}</label>
                 <textarea
                   value={editingFramework.system_prompt}
                   onChange={(e) =>
@@ -284,7 +286,7 @@ export default function FrameworksView() {
                 onClick={() => setShowEditor(false)}
                 className="px-4 py-2 rounded-lg border border-notion-border text-notion-text-gray hover:bg-notion-hover cursor-pointer"
               >
-                取消
+                {t("cancel", { ns: "common" })}
               </button>
               <button
                 onClick={handleSaveFramework}
@@ -292,7 +294,7 @@ export default function FrameworksView() {
                 style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
               >
                 <Check size={18} />
-                保存
+                {t("save", { ns: "common" })}
               </button>
             </div>
           </div>

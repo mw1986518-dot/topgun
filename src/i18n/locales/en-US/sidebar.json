@@ -1,0 +1,10 @@
+{
+  "appName": "TopGun",
+  "workspace": "Reasoning Workspace",
+  "frameworkLibrary": "Thinking Frameworks",
+  "localConfig": "Local Config",
+  "sessionDiagnostics": "Session Diagnostics",
+  "ipcOnline": "IPC Online",
+  "restore": "Restore",
+  "language": "Language"
+}

@@ -1,0 +1,114 @@
+{
+  "phase": {
+    "input": "0. Input",
+    "problemReshaping": "1. Reshape",
+    "multiAgent": "2. Reason",
+    "consensus": "3. Output"
+  },
+  "topicInput": {
+    "title": "New Reasoning Topic",
+    "description": "Enter your initial question, business challenge, or draft proposal. The system will organize multiple thinking frameworks for parallel reasoning and produce actionable conclusions.",
+    "placeholder": "Example: Two clients are unwilling to sign annual minimum agreements. How can we advance the deal without excessive concessions?",
+    "attachment": "Attachments (coming soon)",
+    "startAnalysis": "Start Deep Analysis"
+  },
+  "topNav": {
+    "running": "Reasoning in progress...",
+    "startReasoning": "Start Reasoning",
+    "openHistory": "Open History",
+    "history": "History"
+  },
+  "reasoningPanel": {
+    "title": "Phase 1-3: Multi-Agent Reasoning & Arbitration",
+    "viewingHistory": "Viewing historical phase",
+    "sandboxView": "Sandbox View",
+    "iterationView": "Iteration View",
+    "round": "Round {{count}}:",
+    "divergence": "Divergence reasoning...",
+    "examination": "Cross-examination...",
+    "patching": "Patching iterations..."
+  },
+  "problemBrief": {
+    "title": "Phase 2: Problem Reshaping Dialogue",
+    "description": "This phase focuses on requirement deconstruction and problem definition, not direct solutions. After clarification, click \"Generate Expert Problem Brief\" manually.",
+    "waitingFirst": "Waiting for Problem Definer to initiate the first round of questions...",
+    "identified": "Identified \"Expert Problem Brief + Recommended Experts\" code blocks. Ready to proceed to framework selection.",
+    "tip": "Tip: The system won't auto-close. Please complete goals, constraints, red lines, and blind spots through dialogue before generating the \"Expert Problem Brief\".",
+    "briefGenerated": "Brief generated. Input disabled.",
+    "inputPlaceholder": "Continue adding your context, constraints, and real goals...",
+    "generateBrief": "Generate Expert Problem Brief"
+  },
+  "frameworkSelection": {
+    "title": "Phase 2: Framework Selection",
+    "description": "The system will recommend frameworks based on the reshaped information. Select thinking frameworks to participate in reasoning (3-5 recommended).",
+    "recommended": "Recommended",
+    "selected": "{{count}} frameworks selected",
+    "lockAndRun": "Lock & Start Reasoning",
+    "originalProblem": "Original problem:",
+    "reshapedProblem": "Reshaped Issue:",
+    "editHint": "Only the original problem and AI-reshaped issue are kept here. Changes will be used directly in subsequent reasoning.",
+    "clickToModify": "Click to modify",
+    "selectFramework": "Select this framework for reasoning",
+    "selectedFramework": "Selected {{name}}",
+    "unselectedFramework": "Unselected {{name}}"
+  },
+  "consensus": {
+    "title": "Phase 4: Final Consensus & Delivery",
+    "reportTab": "Consensus Report",
+    "actionPlanTab": "Action Plan",
+    "generateActionPlan": "Generate Action Plan",
+    "answered": "Answered",
+    "questions": "questions",
+    "relatedAction": "Related action:",
+    "exportMarkdown": "Export Markdown",
+    "toleratedRisks": "Tolerated Risks (temporarily accepted, not final consensus)"
+  },
+  "actionPlan": {
+    "title": "Generate Action Plan",
+    "description": "Answer the following questions to help us generate an actionable plan",
+    "progressLabel": "Progress",
+    "progress": "{{current}} / {{total}} questions",
+    "relatedAction": "Related action:",
+    "inputPlaceholder": "Enter your answer...",
+    "processing": "Processing",
+    "send": "Send"
+  },
+  "diagnostics": {
+    "title": "Session Diagnostics",
+    "lastRunCompleted": "Last run completed: {{date}}",
+    "totalTime": "Total Time",
+    "reasoningRuns": "Reasoning runs this session: {{count}}",
+    "historyCount": "History entries: {{count}}",
+    "failureCount": "Failure Count",
+    "failureBreakdown": "Divergence {{divergence}} / Examination {{examination}} / Patch {{patch}} / Consensus {{consensus}}",
+    "fallbackCount": "Fallback Triggers",
+    "fallbackBreakdown": "Parser repair {{parserRepair}} / Text fallback {{textFallback}} / Consensus fallback {{consensusFallback}}",
+    "phases": {
+      "divergence": "Divergence",
+      "examination": "Examination",
+      "patch": "Patch",
+      "consensus": "Consensus"
+    }
+  },
+  "iterationView": {
+    "historyTitle": "Iteration History",
+    "version": "Version {{version}}",
+    "versionFinal": "Version Final",
+    "versions": {
+      "v01Label": "v0.1 Issue Reshaping",
+      "v01Desc": "Clarified problem definition",
+      "v10Label": "v1.0 Divergence Draft",
+      "v10Desc": "Multi-framework parallel reasoning output",
+      "patchLabel": "v{{version}}.0 Patch Version",
+      "patchDesc": "Revision after round {{round}} cross-examination",
+      "finalLabel": "Final Consensus",
+      "finalDesc": "Converged final report"
+    },
+    "waitingTopic": "Waiting for topic parsing...",
+    "noContent": "No content",
+    "noDivergenceOutput": "Reasoning has not produced output yet...",
+    "patchNotComplete": "Patching not complete yet...",
+    "noFrameworkCompletedPatch": "No framework has completed round {{round}} patching",
+    "consensusGenerating": "Final consensus is being generated. Please check the version proposals first."
+  }
+}

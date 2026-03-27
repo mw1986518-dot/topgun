@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Settings, PenTool, Layers, Zap, Activity, Maximize2, Minimize2, Cpu } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Settings, PenTool, Layers, Activity, Maximize2, Minimize2, Cpu, Globe } from "lucide-react";
 import type { IpcLog, SessionDiagnostics } from "../../types";
 import IpcConsole from "../workspace/IpcConsole";
 import SettingsModal from "./SettingsModal";
 import SessionDiagnosticsModal from "./SessionDiagnosticsModal";
+import { supportedLanguages, languageNames, type SupportedLanguage } from "../../i18n";
 
 interface SidebarProps {
   currentView: "workspace" | "frameworks";
@@ -18,14 +20,21 @@ export default function Sidebar({
   ipcLogs = [],
   diagnostics,
 }: SidebarProps) {
+  const { t: tSidebar, i18n } = useTranslation("sidebar");
   const [showSettings, setShowSettings] = useState(false);
   const [showDiagnostics, setShowDiagnostics] = useState(false);
   const [isIpcExpanded, setIsIpcExpanded] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
 
   const menuItems = [
-    { id: "workspace" as const, label: "推演工作台", icon: PenTool },
-    { id: "frameworks" as const, label: "思维框架库", icon: Layers },
+    { id: "workspace" as const, label: tSidebar("workspace"), icon: PenTool },
+    { id: "frameworks" as const, label: tSidebar("frameworkLibrary"), icon: Layers },
   ];
+
+  const changeLanguage = (lang: SupportedLanguage) => {
+    i18n.changeLanguage(lang);
+    setShowLangMenu(false);
+  };
 
   return (
     <>
@@ -48,7 +57,7 @@ export default function Sidebar({
             <Cpu size={16} className="text-[var(--text-primary)]" />
           </div>
           <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-            顶级思维
+            {tSidebar("appName")}
           </span>
         </div>
 
@@ -83,7 +92,7 @@ export default function Sidebar({
               style={{ color: "var(--text-secondary)" }}
             >
               <Settings size={16} style={{ color: "var(--text-muted)" }} />
-              <span className="text-[13px] font-medium">本地配置</span>
+              <span className="text-[13px] font-medium">{tSidebar("localConfig")}</span>
             </button>
             <button
               onClick={() => setShowDiagnostics(true)}
@@ -91,7 +100,7 @@ export default function Sidebar({
               style={{ color: "var(--text-secondary)" }}
             >
               <Activity size={16} style={{ color: "var(--text-muted)" }} />
-              <span className="text-[13px] font-medium">会话诊断</span>
+              <span className="text-[13px] font-medium">{tSidebar("sessionDiagnostics")}</span>
             </button>
           </div>
 
@@ -116,26 +125,64 @@ export default function Sidebar({
 
         {/* Footer */}
         <div
-          className="flex items-center gap-2 px-4 h-9"
+          className="flex flex-col gap-1 px-4 py-2"
           style={{ borderTop: "1px solid var(--border-color)" }}
         >
+          {/* Language Switcher */}
           <div className="relative flex items-center justify-center">
-            <span
-              className="absolute w-3.5 h-3.5 rounded-full opacity-20"
-              style={{
-                background: "var(--accent-green)",
-                animation: "pulse-ring 2s ease-out infinite",
-              }}
-            />
-            <span
-              className="relative w-1.5 h-1.5 rounded-full"
-              style={{ background: "var(--accent-green)" }}
-            />
+            <button
+              onClick={() => setShowLangMenu(!showLangMenu)}
+              className="flex items-center gap-2 px-3 py-1 rounded transition-colors cursor-pointer"
+              style={{ color: "var(--text-muted)" }}
+            >
+              <Globe size={18} />
+              <span className="text-[16px] font-medium">{languageNames[i18n.language as SupportedLanguage] || i18n.language}</span>
+            </button>
+            {showLangMenu && (
+              <div
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 rounded-lg overflow-hidden shadow-lg"
+                style={{
+                  background: "var(--bg-secondary)",
+                  border: "1px solid var(--border-color)",
+                  minWidth: "80px"
+                }}
+              >
+                {supportedLanguages.map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => changeLanguage(lang)}
+                    className="w-full px-4 py-2 text-left text-[16px] font-medium transition-colors cursor-pointer"
+                    style={{
+                      color: i18n.language === lang ? "var(--text-primary)" : "var(--text-secondary)",
+                      background: i18n.language === lang ? "var(--bg-hover)" : "transparent"
+                    }}
+                  >
+                    {languageNames[lang]}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-          <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>
-            IPC 服务在线
-          </span>
-          <Zap size={12} style={{ color: "var(--accent-orange)", marginLeft: "auto" }} />
+
+          {/* IPC Status */}
+          <div className="flex items-center justify-center gap-2 mt-2">
+            <div className="relative flex items-center justify-center">
+              <span
+                className="absolute w-5 h-5 rounded-full opacity-20"
+                style={{
+                  background: "var(--accent-green)",
+                  animation: "pulse-ring 2s ease-out infinite",
+                }}
+              />
+              <span
+                className="relative w-3 h-3 rounded-full"
+                style={{ background: "var(--accent-green)" }}
+              />
+            </div>
+            <span className="text-[16px] font-medium" style={{ color: "var(--text-muted)" }}>
+              {tSidebar("ipcOnline")}
+            </span>
+          </div>
         </div>
       </aside>
 
@@ -168,7 +215,7 @@ export default function Sidebar({
                   }}
                 >
                   <Minimize2 size={12} />
-                  还原
+                  {tSidebar("restore")}
                 </button>
               }
             />

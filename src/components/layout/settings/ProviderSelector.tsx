@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Plus, Trash2 } from "lucide-react";
 import type { CSSProperties } from "react";
 import type { AppConfig } from "../../../types";
@@ -18,6 +19,7 @@ export function ProviderSelector({
     onRemove,
     inputStyle,
 }: ProviderSelectorProps) {
+    const { t } = useTranslation("settings");
     const normalizedConfig = ensureProviderConfig(config);
 
     return (
@@ -27,7 +29,7 @@ export function ProviderSelector({
                     className="block text-sm font-medium mb-1"
                     style={{ color: "var(--color-text-secondary)" }}
                 >
-                    当前供应商
+                    {t("provider.current")}
                 </label>
                 <select
                     value={normalizedConfig.selected_provider_id}
@@ -55,7 +57,7 @@ export function ProviderSelector({
                 style={{ border: "1px solid var(--color-border)", color: "var(--color-text-secondary)" }}
             >
                 <Plus size={14} />
-                新增
+                {t("provider.add")}
             </button>
 
             <button
@@ -66,7 +68,7 @@ export function ProviderSelector({
                 style={{ border: "1px solid var(--color-border)", color: "var(--color-text-secondary)" }}
             >
                 <Trash2 size={14} />
-                删除
+                {t("provider.remove")}
             </button>
         </div>
     );

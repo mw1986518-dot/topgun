@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Code2, FileCheck2, Loader2, Send, Sparkles } from "lucide-react";
 import type { ProblemBriefMessage } from "../../types";
 
@@ -13,8 +14,8 @@ interface ProblemBriefDialoguePanelProps {
 
 /**
  * 阶段二对话面板：
- * 1) 默认只做“需求解构与问题界定”的追问；
- * 2) 只有用户主动点击“生成专家级问题简报”按钮，才允许收口。
+ * 1) 默认只做"需求解构与问题界定"的追问；
+ * 2) 只有用户主动点击"生成专家级问题简报"按钮，才允许收口。
  */
 export default function ProblemBriefDialoguePanel({
   messages,
@@ -24,6 +25,7 @@ export default function ProblemBriefDialoguePanel({
   onSend,
   onGenerateBrief,
 }: ProblemBriefDialoguePanelProps) {
+  const { t } = useTranslation("workspace");
   const [draft, setDraft] = useState("");
 
   // 只展示 user / assistant 消息，避免把系统提示词直接展示给用户。
@@ -71,10 +73,10 @@ export default function ProblemBriefDialoguePanel({
               className="text-xl font-bold tracking-tight"
               style={{ color: "var(--color-text-primary)" }}
             >
-              阶段 2：问题重塑对话
+              {t("problemBrief.title")}
             </h3>
             <p className="text-sm mt-1" style={{ color: "var(--color-text-secondary)" }}>
-              这一阶段只做需求解构与问题界定，不直接给结论方案。完成澄清后，请手动点击“生成专家级问题简报”。
+              {t("problemBrief.description")}
             </p>
           </div>
         </div>
@@ -93,7 +95,7 @@ export default function ProblemBriefDialoguePanel({
               color: "var(--color-text-secondary)",
             }}
           >
-            等待 Problem Definer 发起第一轮追问...
+            {t("problemBrief.waitingFirst")}
           </div>
         )}
 
@@ -145,7 +147,7 @@ export default function ProblemBriefDialoguePanel({
             }}
           >
             <Code2 size={16} />
-            已识别“专家级问题简报 + 推荐专家”双代码块，可以进入下一步框架选择。
+            {t("problemBrief.identified")}
           </div>
         )}
 
@@ -158,7 +160,7 @@ export default function ProblemBriefDialoguePanel({
               color: "#BAE6FD",
             }}
           >
-            提示：系统不会自动收口。请先通过对话补齐目标、约束、红线和盲区，再手动生成“专家级问题简报”。
+            {t("problemBrief.tip")}
           </div>
         )}
 
@@ -167,8 +169,8 @@ export default function ProblemBriefDialoguePanel({
           onChange={(event) => setDraft(event.target.value)}
           placeholder={
             completed
-              ? "简报已生成，输入框已禁用。"
-              : "继续补充你的上下文、约束和真实目标..."
+              ? t("problemBrief.briefGenerated")
+              : t("problemBrief.inputPlaceholder")
           }
           disabled={submitting || generating || completed}
           className="w-full px-4 py-3 rounded-xl focus:outline-none resize-none flex-1 transition-colors custom-scrollbar"
@@ -189,12 +191,12 @@ export default function ProblemBriefDialoguePanel({
             {generating ? (
               <>
                 <Loader2 size={16} className="animate-spin" />
-                生成中...
+                {t("generating", { ns: "common" })}
               </>
             ) : (
               <>
                 <FileCheck2 size={16} />
-                生成专家级问题简报
+                {t("problemBrief.generateBrief")}
               </>
             )}
           </button>
@@ -208,12 +210,12 @@ export default function ProblemBriefDialoguePanel({
             {submitting ? (
               <>
                 <Loader2 size={16} className="animate-spin" />
-                发送中...
+                {t("sending", { ns: "common" })}
               </>
             ) : (
               <>
                 <Send size={16} />
-                发送
+                {t("send", { ns: "common" })}
               </>
             )}
           </button>

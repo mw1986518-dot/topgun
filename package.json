@@ -1,7 +1,7 @@
 {
   "name": "topgun",
-  "version": "0.1.0",
-  "description": "顶级思维 - 基于 Tauri 的桌面应用",
+  "version": "0.1.2",
+  "description": "TopGun - Multi-Agent Reasoning Desktop App with i18n support (中文/English)",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -20,9 +20,12 @@
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
+    "i18next": "^25.10.10",
+    "i18next-browser-languagedetector": "^8.2.1",
     "lucide-react": "^0.576.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-i18next": "^16.6.6",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1"
   },

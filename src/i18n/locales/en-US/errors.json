@@ -1,0 +1,25 @@
+{
+  "networkError": "Network connection failed. Please check your network settings.",
+  "apiError": "API call failed: {{message}}",
+  "configError": "Configuration load failed",
+  "sessionError": "Session initialization failed",
+  "exportCancelled": "Export cancelled",
+  "noExportContent": "No content available for export",
+  "initFailed": "Initialization failed",
+  "actionFailed": "Action failed",
+  "eventListenFailed": "Event listener failed",
+  "unknownError": "An unknown error occurred",
+  "loadHistoryFailed": "Failed to load history",
+  "deleteHistoryFailed": "Failed to delete history",
+  "clearHistoryFailed": "Failed to clear history",
+  "historyLoaded": "History snapshot loaded",
+  "historyDeleted": "History record deleted",
+  "historyCleared": "History cleared",
+  "sessionReset": "Session reset",
+  "reasoningStarted": "Reasoning task started",
+  "errorBoundary": {
+    "title": "Application Error",
+    "unknownError": "Unknown error",
+    "retry": "Retry"
+  }
+}

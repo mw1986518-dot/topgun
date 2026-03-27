@@ -1,0 +1,49 @@
+{
+  "title": "System Settings",
+  "llmConfig": "LLM API Configuration",
+  "singleProviderNote": "Each reasoning task uses only the currently selected provider and model. No automatic failover.",
+  "provider": {
+    "label": "Provider",
+    "current": "Current Provider",
+    "add": "Add",
+    "remove": "Remove",
+    "defaultName": "Default Provider"
+  },
+  "name": {
+    "label": "Provider Name",
+    "placeholder": "e.g., OpenAI / Gemini / DeepSeek"
+  },
+  "baseUrl": {
+    "label": "Base URL",
+    "placeholder": "https://api.openai.com/v1"
+  },
+  "apiKey": {
+    "label": "API Key",
+    "placeholder": "sk-..."
+  },
+  "model": {
+    "label": "Model Name",
+    "placeholder": "e.g., gpt-4o, gemini-pro"
+  },
+  "advanced": "Advanced Settings",
+  "timeout": {
+    "label": "Timeout (seconds)",
+    "description": "HTTP request timeout"
+  },
+  "maxRetries": {
+    "label": "Max Retries",
+    "description": "Maximum retry attempts on failure"
+  },
+  "maxIterations": {
+    "label": "Reasoning Rounds",
+    "description": "Maximum rounds for multi-agent cross-examination (3-6)"
+  },
+  "enableRetry": {
+    "label": "Enable Exponential Backoff Retry",
+    "description": "Prevent 429 rate limiting"
+  },
+  "testConnection": "Test Current Provider",
+  "connectionSuccess": "Provider \"{{name}}\" connection test successful",
+  "connectionFailed": "Connection failed: {{error}}",
+  "saved": "Configuration saved"
+}

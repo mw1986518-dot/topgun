@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Cpu, FileText, Loader2, Server } from "lucide-react";
 import type { Agent, Framework, StateMachine } from "../../types";
 import AgentCard from "./AgentCard";
@@ -31,13 +32,14 @@ export default function WorkspaceReasoningPanel({
   onTabChange,
   formatElapsed,
 }: WorkspaceReasoningPanelProps) {
+  const { t } = useTranslation("workspace");
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between mt-4">
         <div className="flex items-center gap-2">
           <Cpu style={{ color: "var(--color-accent)" }} size={24} />
           <h3 className="text-xl font-bold" style={{ color: "var(--color-text-primary)" }}>
-            阶段 1-3：多智能体推演与仲裁{" "}
+            {t("reasoningPanel.title")}{" "}
             {viewOverride !== null && (
               <span
                 className="ml-3 text-sm font-normal px-2 py-1 rounded"
@@ -46,7 +48,7 @@ export default function WorkspaceReasoningPanel({
                   background: "rgba(245, 158, 11, 0.1)",
                 }}
               >
-                正在查看历史阶段
+                {t("reasoningPanel.viewingHistory")}
               </span>
             )}
           </h3>
@@ -74,12 +76,12 @@ export default function WorkspaceReasoningPanel({
               {tab === "agents" ? (
                 <>
                   <Server size={16} />
-                  沙盘视图
+                  {t("reasoningPanel.sandboxView")}
                 </>
               ) : (
                 <>
                   <FileText size={16} />
-                  迭代视图
+                  {t("reasoningPanel.iterationView")}
                 </>
               )}
             </button>
@@ -90,14 +92,14 @@ export default function WorkspaceReasoningPanel({
       <div className="rounded-xl flex items-center justify-between px-6 py-4 glass">
         <div className="flex items-center gap-3">
           <span className="text-[15px] font-bold" style={{ color: "var(--color-accent)" }}>
-            第 {state.iteration_count || 1} 轮：
+            {t("reasoningPanel.round", { count: state.iteration_count || 1 })}
           </span>
           <span className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
             {currentPhase === 1
-              ? "发散推演中..."
+              ? t("reasoningPanel.divergence")
               : currentPhase === 2
-                ? "交叉质询中..."
-                : "修补迭代中..."}
+                ? t("reasoningPanel.examination")
+                : t("reasoningPanel.patching")}
           </span>
           {isReasoning && viewOverride === null && (
             <Loader2 size={14} className="animate-spin text-notion-text-light" />

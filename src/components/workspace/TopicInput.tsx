@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Wand2, Paperclip } from "lucide-react";
 
 interface TopicInputProps {
@@ -7,6 +8,7 @@ interface TopicInputProps {
 }
 
 export default function TopicInput({ onSubmit, disabled }: TopicInputProps) {
+  const { t } = useTranslation("workspace");
   const [topic, setTopic] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -34,13 +36,13 @@ export default function TopicInput({ onSubmit, disabled }: TopicInputProps) {
           className="text-[2rem] font-bold tracking-tight"
           style={{ color: "var(--color-text-primary)" }}
         >
-          新建推演议题
+          {t("topicInput.title")}
         </h2>
         <p
           className="text-[1.05rem] mt-2 leading-relaxed max-w-2xl"
           style={{ color: "var(--color-text-secondary)" }}
         >
-          输入你的初始问题、业务难点或方案草稿，系统会组织多个思维框架并发推演，输出可执行结论。
+          {t("topicInput.description")}
         </p>
       </div>
 
@@ -56,7 +58,7 @@ export default function TopicInput({ onSubmit, disabled }: TopicInputProps) {
           onChange={(event) => setTopic(event.target.value)}
           onKeyDown={handleKeyDown}
           disabled={disabled || submitting}
-          placeholder="例如：两个客户都不愿意签年度保底协议，如何在不让利过多的前提下推进成交？"
+          placeholder={t("topicInput.placeholder")}
           rows={6}
           className="w-full px-5 py-4 bg-transparent focus:outline-none resize-none text-[15px] leading-relaxed"
           style={{ color: "var(--color-text-primary)" }}
@@ -75,7 +77,7 @@ export default function TopicInput({ onSubmit, disabled }: TopicInputProps) {
           >
             <button className="flex items-center gap-1.5 hover:opacity-80 transition-opacity font-medium cursor-pointer">
               <Paperclip size={16} />
-              支持附件（预留）
+              {t("topicInput.attachment")}
             </button>
             <span className="flex items-center gap-1.5">
               <span
@@ -99,7 +101,7 @@ export default function TopicInput({ onSubmit, disabled }: TopicInputProps) {
               >
                 Enter
               </span>
-              提交
+              {t("submit", { ns: "common" })}
             </span>
           </div>
 
@@ -110,11 +112,11 @@ export default function TopicInput({ onSubmit, disabled }: TopicInputProps) {
             style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
           >
             {submitting ? (
-              <>处理中...</>
+              t("processing", { ns: "common" })
             ) : (
               <>
                 <Wand2 size={18} />
-                开始深度分析
+                {t("topicInput.startAnalysis")}
               </>
             )}
           </button>
@@ -123,4 +125,3 @@ export default function TopicInput({ onSubmit, disabled }: TopicInputProps) {
     </div>
   );
 }
-

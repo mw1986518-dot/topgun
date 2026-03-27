@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Eye, EyeOff } from "lucide-react";
 import type { CSSProperties, Dispatch, SetStateAction } from "react";
 import type { LlmProviderConfig } from "../../../types";
@@ -17,6 +18,8 @@ export function ProviderForm({
     setShowApiKey,
     inputStyle,
 }: ProviderFormProps) {
+    const { t } = useTranslation("settings");
+
     return (
         <>
             <div>
@@ -24,13 +27,13 @@ export function ProviderForm({
                     className="block text-sm font-medium mb-1"
                     style={{ color: "var(--color-text-secondary)" }}
                 >
-                    供应商名称
+                    {t("name.label")}
                 </label>
                 <input
                     type="text"
                     value={provider.name}
                     onChange={(event) => onChangeField("name", event.target.value)}
-                    placeholder="例如：OpenAI / Gemini / DeepSeek"
+                    placeholder={t("name.placeholder")}
                     className="w-full px-3 py-2 rounded-lg focus:outline-none focus:ring-2"
                     style={
                         {
@@ -46,13 +49,13 @@ export function ProviderForm({
                     className="block text-sm font-medium mb-1"
                     style={{ color: "var(--color-text-secondary)" }}
                 >
-                    接口地址（Base URL）
+                    {t("baseUrl.label")}
                 </label>
                 <input
                     type="url"
                     value={provider.base_url}
                     onChange={(event) => onChangeField("base_url", event.target.value)}
-                    placeholder="https://api.openai.com"
+                    placeholder={t("baseUrl.placeholder")}
                     className="w-full px-3 py-2 rounded-lg focus:outline-none focus:ring-2"
                     style={
                         {
@@ -68,13 +71,13 @@ export function ProviderForm({
                     className="block text-sm font-medium mb-1"
                     style={{ color: "var(--color-text-secondary)" }}
                 >
-                    模型名称（Model）
+                    {t("model.label")}
                 </label>
                 <input
                     type="text"
                     value={provider.model}
                     onChange={(event) => onChangeField("model", event.target.value)}
-                    placeholder="gpt-4.1-mini / gemini-2.0-flash ..."
+                    placeholder={t("model.placeholder")}
                     className="w-full px-3 py-2 rounded-lg focus:outline-none focus:ring-2"
                     style={
                         {
@@ -90,14 +93,14 @@ export function ProviderForm({
                     className="block text-sm font-medium mb-1"
                     style={{ color: "var(--color-text-secondary)" }}
                 >
-                    API Key
+                    {t("apiKey.label")}
                 </label>
                 <div className="relative">
                     <input
                         type={showApiKey ? "text" : "password"}
                         value={provider.api_key}
                         onChange={(event) => onChangeField("api_key", event.target.value)}
-                        placeholder="sk-..."
+                        placeholder={t("apiKey.placeholder")}
                         className="w-full px-3 py-2 pr-10 rounded-lg focus:outline-none focus:ring-2"
                         style={
                             {

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Target,
   Boxes,
@@ -22,13 +23,6 @@ interface WorkspaceTopNavProps {
   onReset: () => void | Promise<void>;
 }
 
-const steps = [
-  { id: -1, label: "0. 议题输入", icon: Target },
-  { id: 0, label: "1. 问题重塑对话", icon: Boxes },
-  { id: 2, label: "2. 多智能体推演", icon: Zap },
-  { id: 4, label: "3. 共识输出", icon: Flag },
-] as const;
-
 export default function WorkspaceTopNav({
   currentPhase,
   displayPhase,
@@ -41,12 +35,20 @@ export default function WorkspaceTopNav({
   onOpenHistory,
   onReset,
 }: WorkspaceTopNavProps) {
+  const { t } = useTranslation('workspace');
+
+  const steps = [
+    { id: -1, label: t('phase.input'), icon: Target },
+    { id: 0, label: t('phase.problemReshaping'), icon: Boxes },
+    { id: 2, label: t('phase.multiAgent'), icon: Zap },
+    { id: 4, label: t('phase.consensus'), icon: Flag },
+  ] as const;
   return (
     <div
       className="sticky top-0 z-30 flex items-center justify-between border-b px-6 overflow-x-auto whitespace-nowrap glass"
       style={{ borderColor: "var(--color-border)" }}
     >
-      <div className="flex items-center h-16 space-x-1">
+      <div className="flex items-center h-12">
         {steps.map((step, index) => {
           const Icon = step.icon;
 
@@ -72,18 +74,18 @@ export default function WorkspaceTopNav({
               }}
             >
               <div
-                className={`flex items-center gap-2 px-4 py-2 font-medium transition-colors ${isActive
+                className={`flex items-center gap-2 px-3 py-2 font-medium transition-colors ${isActive
                     ? "text-[var(--color-accent)]"
                     : isClickable
                       ? "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
                       : "text-[var(--color-text-muted)]"
                   }`}
               >
-                <Icon size={16} />
-                <span className="text-sm">{step.label}</span>
+                <Icon size={20} />
+                <span className="text-[18px]">{step.label}</span>
               </div>
               {index < steps.length - 1 && (
-                <ChevronRight size={16} style={{ color: "var(--color-text-muted)" }} />
+                <ChevronRight size={20} style={{ color: "var(--color-text-muted)", marginLeft: "6px", marginRight: "6px" }} />
               )}
             </div>
           );
@@ -101,7 +103,7 @@ export default function WorkspaceTopNav({
             }}
           >
             <Play size={16} fill="currentColor" />
-            {isReasoning || backendReasoningRunning ? "推演进行中..." : "开始推演"}
+            {isReasoning || backendReasoningRunning ? t('topNav.running') : t('topNav.startReasoning')}
           </button>
         )}
         <button
@@ -109,10 +111,10 @@ export default function WorkspaceTopNav({
           className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ color: "var(--color-text-secondary)" }}
           disabled={busy}
-          title="打开历史记录"
+          title={t('topNav.openHistory')}
         >
           <History size={16} />
-          历史记录
+          {t('topNav.history')}
         </button>
         <div className="w-px h-4 mx-1" style={{ background: "var(--color-border)" }} />
         <button
@@ -121,7 +123,7 @@ export default function WorkspaceTopNav({
           className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-red-400 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
         >
           <Square size={14} fill="currentColor" />
-          重置
+          {t('reset', { ns: 'common' })}
         </button>
       </div>
     </div>

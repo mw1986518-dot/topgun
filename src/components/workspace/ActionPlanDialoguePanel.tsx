@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ArrowRight, Loader2, Send, X, HelpCircle } from "lucide-react";
 import type { ActionPlanQuestion } from "../../types";
 
@@ -25,6 +26,7 @@ export default function ActionPlanDialoguePanel({
   onAnswer,
   onCancel,
 }: ActionPlanDialoguePanelProps) {
+  const { t } = useTranslation("workspace");
   const [input, setInput] = useState("");
 
   const currentQuestion = questions[currentIndex];
@@ -77,10 +79,10 @@ export default function ActionPlanDialoguePanel({
                 className="text-xl font-bold tracking-tight"
                 style={{ color: "var(--color-text-primary)" }}
               >
-                生成落地方案
+                {t("actionPlan.title")}
               </h3>
               <p className="text-sm mt-1" style={{ color: "var(--color-text-secondary)" }}>
-                回答以下问题，帮助我们生成可执行的落地方案
+                {t("actionPlan.description")}
               </p>
             </div>
           </div>
@@ -97,9 +99,9 @@ export default function ActionPlanDialoguePanel({
       {/* 进度条 */}
       <div className="px-6 py-3 border-b" style={{ borderColor: "var(--color-border)" }}>
         <div className="flex items-center justify-between text-sm mb-2">
-          <span style={{ color: "var(--color-text-secondary)" }}>进度</span>
+          <span style={{ color: "var(--color-text-secondary)" }}>{t("actionPlan.progressLabel")}</span>
           <span style={{ color: "var(--color-text-primary)" }}>
-            {answeredCount} / {totalQuestions} 个问题
+            {t("actionPlan.progress", { current: answeredCount, total: totalQuestions })}
           </span>
         </div>
         <div
@@ -143,7 +145,7 @@ export default function ActionPlanDialoguePanel({
                 {currentQuestion.question}
               </p>
               <p className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
-                <span style={{ color: "#22C55E" }}>关联行动：</span>
+                <span style={{ color: "#22C55E" }}>{t("actionPlan.relatedAction")}</span>
                 {currentQuestion.related_action}
               </p>
               <p className="text-sm mt-1" style={{ color: "var(--color-text-tertiary)" }}>
@@ -182,7 +184,7 @@ export default function ActionPlanDialoguePanel({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="输入你的回答..."
+            placeholder={t("actionPlan.inputPlaceholder")}
             disabled={submitting || generating}
             className="flex-1 px-4 py-3 rounded-xl text-base outline-none transition-all"
             style={{
@@ -203,12 +205,12 @@ export default function ActionPlanDialoguePanel({
             {submitting || generating ? (
               <>
                 <Loader2 size={18} className="animate-spin" />
-                处理中
+                {t("actionPlan.processing")}
               </>
             ) : (
               <>
                 <Send size={18} />
-                发送
+                {t("actionPlan.send")}
               </>
             )}
           </button>

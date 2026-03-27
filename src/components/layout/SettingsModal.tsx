@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { X } from "lucide-react";
 import type { CSSProperties } from "react";
 import { useSettingsModalState } from "../../hooks/useSettingsModalState";
@@ -18,6 +19,7 @@ const inputStyle: CSSProperties = {
 };
 
 export default function SettingsModal({ onClose }: SettingsModalProps) {
+  const { t } = useTranslation("settings");
   const {
     config,
     setConfig,
@@ -32,7 +34,6 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
     handleTestConnection,
   } = useSettingsModalState();
 
-  // 这个状态只影响“密码明文/密文切换”，属于纯 UI 状态，留在组件层最直观。
   const [showApiKey, setShowApiKey] = useState(false);
 
   return (
@@ -49,7 +50,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
           style={{ borderBottom: "1px solid var(--color-border)" }}
         >
           <h2 className="text-xl font-semibold" style={{ color: "var(--color-text-primary)" }}>
-            系统配置
+            {t("title")}
           </h2>
           <button
             onClick={onClose}
@@ -63,7 +64,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
         <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
           {loading ? (
             <div className="text-center py-8" style={{ color: "var(--color-text-muted)" }}>
-              加载中...
+              {t("loading", { ns: "common" })}
             </div>
           ) : (
             <>

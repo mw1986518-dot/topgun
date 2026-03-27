@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "../../hooks/useHistory";
 import { useReasoningTimer } from "../../hooks/useReasoningTimer";
 import { useWorkspaceState } from "../../hooks/useWorkspaceState";
@@ -33,6 +34,7 @@ export default function Workspace({
   onIpcLogsChange,
   onDiagnosticsChange,
 }: WorkspaceProps) {
+  const { t } = useTranslation();
   const {
     state,
     setState,
@@ -126,7 +128,7 @@ export default function Workspace({
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-notion-text-gray">加载中...</div>
+        <div className="text-notion-text-gray">{t("loading", { ns: "common" })}</div>
       </div>
     );
   }

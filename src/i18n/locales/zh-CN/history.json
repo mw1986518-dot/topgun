@@ -1,0 +1,20 @@
+{
+  "title": "历史记录",
+  "searchPlaceholder": "搜索议题 / 模型 / 摘要",
+  "count": "{{current}} / {{total}} 条",
+  "loading": "加载历史中...",
+  "noHistory": "暂无历史记录。完成一次完整推演后会自动写入快照。",
+  "noMatch": "没有匹配的历史记录。",
+  "unnamed": "未命名会话",
+  "meta": {
+    "model": "模型: {{name}}",
+    "frameworks": "框架: {{count}}",
+    "rounds": "轮次: {{count}}",
+    "duration": "耗时: {{duration}}",
+    "failures": "失败: {{count}}",
+    "fallbacks": "降级: {{count}}"
+  },
+  "clearConfirm": "确认清空全部历史记录吗？",
+  "load": "加载",
+  "delete": "删除"
+}

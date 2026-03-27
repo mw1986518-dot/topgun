@@ -1,4 +1,5 @@
-﻿import { useState, useEffect, useCallback, useRef } from "react";
+﻿import i18n from "i18next";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen, type UnlistenFn } from "@tauri-apps/api/event";
 import type { Framework, StateMachine } from "../types";
@@ -19,7 +20,7 @@ export function toErrorMessage(error: unknown): string {
   try {
     return JSON.stringify(error);
   } catch {
-    return "发生未知错误";
+    return i18n.t("errors:unknownError");
   }
 }
 
@@ -83,7 +84,7 @@ export function useWorkspaceState() {
     } catch (error) {
       setUiError({
         type: "load",
-        title: "初始化加载失败",
+        title: i18n.t("errors:initFailed"),
         message: toErrorMessage(error),
       });
     } finally {
@@ -139,7 +140,7 @@ export function useWorkspaceState() {
         if (!mounted) return;
         setUiError({
           type: "action",
-          title: "事件监听失败",
+          title: i18n.t("errors:eventListenFailed"),
           message: toErrorMessage(error),
         });
       }
@@ -188,13 +189,13 @@ export function useWorkspaceState() {
 
       try {
         await action();
-        if (key === "reasoning") showActionTip("推演任务已启动");
-        if (key === "reset") showActionTip("会话已重置");
+        if (key === "reasoning") showActionTip(i18n.t("errors:reasoningStarted"));
+        if (key === "reset") showActionTip(i18n.t("errors:sessionReset"));
         return true;
       } catch (error) {
         setUiError({
           type: "action",
-          title: "操作执行失败",
+          title: i18n.t("errors:actionFailed"),
           message: toErrorMessage(error),
         });
         return false;

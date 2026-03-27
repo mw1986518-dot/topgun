@@ -1,0 +1,25 @@
+{
+  "networkError": "网络连接失败，请检查网络设置",
+  "apiError": "API 调用失败: {{message}}",
+  "configError": "配置加载失败",
+  "sessionError": "会话初始化失败",
+  "exportCancelled": "导出已取消",
+  "noExportContent": "当前没有可导出的内容",
+  "initFailed": "初始化加载失败",
+  "actionFailed": "操作执行失败",
+  "eventListenFailed": "事件监听失败",
+  "unknownError": "发生未知错误",
+  "loadHistoryFailed": "加载历史失败",
+  "deleteHistoryFailed": "删除历史失败",
+  "clearHistoryFailed": "清空历史失败",
+  "historyLoaded": "历史快照已加载",
+  "historyDeleted": "历史记录已删除",
+  "historyCleared": "历史记录已清空",
+  "sessionReset": "会话已重置",
+  "reasoningStarted": "推演任务已启动",
+  "errorBoundary": {
+    "title": "应用发生错误",
+    "unknownError": "未知错误",
+    "retry": "重试"
+  }
+}

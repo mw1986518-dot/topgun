@@ -1,4 +1,5 @@
-﻿import {
+import { useTranslation } from "react-i18next";
+import {
   History,
   Loader2,
   Search,
@@ -32,13 +33,6 @@ function formatDate(value: number) {
   }
 }
 
-function toPreview(content: string | undefined) {
-  if (!content) return "暂无共识内容";
-  const oneLine = content.replace(/\s+/g, " ").trim();
-  if (oneLine.length <= 140) return oneLine;
-  return `${oneLine.slice(0, 140)}...`;
-}
-
 function formatDuration(ms: number | undefined): string {
   if (!ms || ms <= 0) return "--";
   if (ms < 1000) return `${ms}ms`;
@@ -62,8 +56,17 @@ export default function HistoryPanel({
   onDelete,
   onClear,
 }: HistoryPanelProps) {
+  const { t } = useTranslation("history");
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
+
+  function toPreview(content: string | undefined) {
+    if (!content) return t("noConsensus", { defaultValue: "暂无共识内容" });
+    const oneLine = content.replace(/\s+/g, " ").trim();
+    if (oneLine.length <= 140) return oneLine;
+    return `${oneLine.slice(0, 140)}...`;
+  }
+
   const filteredItems = useMemo(() => {
     if (!normalizedQuery) return items;
     return items.filter((entry) => {
@@ -104,7 +107,7 @@ export default function HistoryPanel({
               className="font-semibold"
               style={{ color: "var(--color-text-primary)" }}
             >
-              历史记录
+              {t("title")}
             </h3>
           </div>
           <div className="flex items-center gap-2">
@@ -112,7 +115,7 @@ export default function HistoryPanel({
               onClick={onRefresh}
               className="p-2 rounded-lg cursor-pointer"
               style={{ color: "var(--color-text-secondary)" }}
-              title="刷新"
+              title={t("refresh", { ns: "common" })}
             >
               <RefreshCcw size={16} />
             </button>
@@ -121,7 +124,7 @@ export default function HistoryPanel({
               disabled={items.length === 0 || clearing}
               className="p-2 rounded-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ color: "#F87171" }}
-              title="清空历史"
+              title={t("clear", { ns: "common" })}
             >
               {clearing ? (
                 <Loader2 size={16} className="animate-spin" />
@@ -133,7 +136,7 @@ export default function HistoryPanel({
               onClick={onClose}
               className="p-2 rounded-lg cursor-pointer"
               style={{ color: "var(--color-text-secondary)" }}
-              title="关闭"
+              title={t("close", { ns: "common" })}
             >
               <X size={16} />
             </button>
@@ -155,7 +158,7 @@ export default function HistoryPanel({
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="搜索议题 / 模型 / 摘要"
+              placeholder={t("searchPlaceholder")}
               className="w-full bg-transparent outline-none text-sm"
               style={{ color: "var(--color-text-primary)" }}
             />
@@ -164,7 +167,7 @@ export default function HistoryPanel({
             className="mt-2 text-xs"
             style={{ color: "var(--color-text-muted)" }}
           >
-            {filteredItems.length} / {items.length} 条
+            {t("count", { current: filteredItems.length, total: items.length })}
           </div>
         </div>
 
@@ -179,7 +182,7 @@ export default function HistoryPanel({
               }}
             >
               <Loader2 size={16} className="animate-spin" />
-              <span className="text-sm">加载历史中...</span>
+              <span className="text-sm">{t("loading")}</span>
             </div>
           )}
 
@@ -192,7 +195,7 @@ export default function HistoryPanel({
                 color: "var(--color-text-secondary)",
               }}
             >
-              暂无历史记录。完成一次完整推演后会自动写入快照。
+              {t("noHistory")}
             </div>
           )}
 
@@ -205,7 +208,7 @@ export default function HistoryPanel({
                 color: "var(--color-text-secondary)",
               }}
             >
-              没有匹配的历史记录。
+              {t("noMatch")}
             </div>
           )}
 
@@ -235,22 +238,23 @@ export default function HistoryPanel({
                       className="text-sm font-semibold line-clamp-1"
                       style={{ color: "var(--color-text-primary)" }}
                     >
-                      {state.topic || "未命名会话"}
+                      {state.topic || t("unnamed")}
                     </div>
                     <div
                       className="text-xs"
                       style={{ color: "var(--color-text-muted)" }}
                     >
-                      {formatDate(entry.created_at)} · 模型: {entry.model} ·
-                      框架: {state.selected_frameworks.length} · 轮次:{" "}
-                      {state.iteration_count || 1}
+                      {formatDate(entry.created_at)} · {t("meta.model", { name: entry.model })} ·
+                      {t("meta.frameworks", { count: state.selected_frameworks.length })} ·
+                      {t("meta.rounds", { count: state.iteration_count || 1 })}
                     </div>
                     <div
                       className="text-xs"
                       style={{ color: "var(--color-text-muted)" }}
                     >
-                      耗时: {formatDuration(totalDuration)} · 失败:{" "}
-                      {totalFailures} · 降级: {totalFallbacks}
+                      {t("meta.duration", { duration: formatDuration(totalDuration) })} ·
+                      {t("meta.failures", { count: totalFailures })} ·
+                      {t("meta.fallbacks", { count: totalFallbacks })}
                     </div>
                   </div>
 
@@ -276,7 +280,7 @@ export default function HistoryPanel({
                       ) : (
                         <Upload size={14} />
                       )}
-                      加载
+                      {t("load")}
                     </button>
                     <button
                       onClick={() => onDelete(entry.id)}
@@ -292,7 +296,7 @@ export default function HistoryPanel({
                       ) : (
                         <Trash2 size={14} />
                       )}
-                      删除
+                      {t("delete")}
                     </button>
                   </div>
                 </div>

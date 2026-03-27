@@ -1,0 +1,17 @@
+{
+  "title": "思维框架库",
+  "description": "管理内置和自定义的思维框架",
+  "builtinFrameworks": "系统内置框架",
+  "customFrameworks": "用户自定义框架",
+  "noCustomFrameworks": "暂无自定义框架",
+  "createFirst": "创建第一个框架",
+  "createFramework": "新建框架",
+  "editFramework": "编辑框架",
+  "deleteConfirm": "确定要删除这个自定义框架吗？",
+  "fields": {
+    "name": "名称",
+    "icon": "图标",
+    "description": "描述",
+    "systemPrompt": "系统提示词"
+  }
+}

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Download, Copy, Check, AlertCircle, Loader2, ArrowRight, FileText, ClipboardList } from "lucide-react";
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
@@ -32,6 +33,7 @@ export default function ConsensusOutput({
   currentActionPlanQuestionIndex = 0,
   onStateUpdate,
 }: ConsensusOutputProps) {
+  const { t } = useTranslation("workspace");
   const [copied, setCopied] = useState(false);
   const [exportStatus, setExportStatus] = useState<ExportStatus>("idle");
   const [exportMessage, setExportMessage] = useState("");
@@ -69,14 +71,14 @@ export default function ConsensusOutput({
     const text = viewMode === "consensus" ? content : (localActionPlan || "");
     if (!text.trim()) {
       setExportStatus("error");
-      setExportMessage("当前没有可导出的内容");
+      setExportMessage(t("consensus.exportMarkdown"));
       return;
     }
     setExportStatus("exporting");
     try {
       const path = await invoke<string>("export_consensus_markdown", { content: text });
       setExportStatus("success");
-      setExportMessage("已导出到：" + path);
+      setExportMessage(t("exportSuccess", { defaultValue: "已导出到：" }) + path);
       setTimeout(() => { setExportStatus("idle"); setExportMessage(""); }, 2500);
     } catch (error) {
       if (String(error).includes("已取消")) {
@@ -158,7 +160,7 @@ export default function ConsensusOutput({
             }}
           >
             <FileText size={14} />
-            共识报告
+            {t("consensus.reportTab")}
           </button>
           <button
             onClick={() => setViewMode("actionPlan")}
@@ -169,7 +171,7 @@ export default function ConsensusOutput({
             }}
           >
             <ClipboardList size={14} />
-            落地方案
+            {t("consensus.actionPlanTab")}
           </button>
         </div>
       )}
@@ -222,7 +224,7 @@ export default function ConsensusOutput({
                 {viewMode === "consensus" ? <Check size={16} /> : <ClipboardList size={16} />}
               </div>
               <span className="text-base font-medium" style={{ color: "var(--text-primary)" }}>
-                {viewMode === "consensus" ? "阶段 4：最终共识与交付" : "落地方案"}
+                {viewMode === "consensus" ? t("consensus.title") : t("consensus.actionPlanTab")}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -238,7 +240,7 @@ export default function ConsensusOutput({
                   ) : (
                     <ArrowRight size={14} />
                   )}
-                  {isStartingActionPlan ? "分析中..." : "生成落地方案"}
+                  {isStartingActionPlan ? t("consensus.analyzing", { defaultValue: "分析中..." }) : t("consensus.generateActionPlan")}
                 </button>
               )}
               <button
@@ -250,7 +252,7 @@ export default function ConsensusOutput({
                 }}
               >
                 {copied ? <Check size={14} /> : <Copy size={14} />}
-                {copied ? "已复制" : "复制"}
+                {copied ? t("copied", { defaultValue: "已复制" }) : t("copy", { ns: "common" })}
               </button>
               <button
                 onClick={handleDownload}
@@ -263,7 +265,7 @@ export default function ConsensusOutput({
                 ) : (
                   <Download size={14} />
                 )}
-                {exportStatus === "exporting" ? "导出中..." : "导出"}
+                {exportStatus === "exporting" ? t("exporting", { ns: "common" }) : t("export", { ns: "common" })}
               </button>
             </div>
           </div>
@@ -293,12 +295,12 @@ export default function ConsensusOutput({
               content ? (
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
               ) : (
-                <p style={{ color: "var(--text-muted)" }}>引擎正在生成最终报告...</p>
+                <p style={{ color: "var(--text-muted)" }}>{t("consensus.generating", { defaultValue: "引擎正在生成最终报告..." })}</p>
               )
             ) : localActionPlan ? (
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{localActionPlan}</ReactMarkdown>
             ) : (
-              <p style={{ color: "var(--text-muted)" }}>正在生成落地方案...</p>
+              <p style={{ color: "var(--text-muted)" }}>{t("consensus.generatingActionPlan", { defaultValue: "正在生成落地方案..." })}</p>
             )}
           </div>
 
@@ -312,7 +314,7 @@ export default function ConsensusOutput({
                 className="text-xs font-medium mb-3"
                 style={{ color: "var(--accent-orange)" }}
               >
-                容忍风险清单（临时接受，非最终共识）
+                {t("consensus.toleratedRisks")}
               </h4>
               <div className="space-y-2">
                 {toleratedRisks.map((risk, i) => (
@@ -323,17 +325,17 @@ export default function ConsensusOutput({
                   >
                     <div className="flex items-center justify-between text-xs mb-2">
                       <span style={{ color: "var(--text-secondary)" }}>
-                        来源框架：{getFrameworkName(risk.framework_id)}
+                        {t("consensus.sourceFramework", { defaultValue: "来源框架：" })}{getFrameworkName(risk.framework_id)}
                       </span>
                       <span
                         className="px-2 py-0.5 rounded"
                         style={{ background: "rgba(249, 115, 22, 0.15)", color: "var(--accent-orange)" }}
                       >
-                        临时容忍项
+                        {t("consensus.temporaryItem", { defaultValue: "临时容忍项" })}
                       </span>
                     </div>
                     <p className="text-xs" style={{ color: "var(--text-primary)" }}>
-                      <strong>风险摘要：</strong>{risk.risk_summary}
+                      <strong>{t("consensus.riskSummary", { defaultValue: "风险摘要：" })}</strong>{risk.risk_summary}
                     </p>
                   </div>
                 ))}

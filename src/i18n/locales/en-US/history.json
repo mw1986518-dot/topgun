@@ -1,0 +1,20 @@
+{
+  "title": "History",
+  "searchPlaceholder": "Search topic / model / summary",
+  "count": "{{current}} / {{total}} entries",
+  "loading": "Loading history...",
+  "noHistory": "No history records. A snapshot will be saved after completing a full reasoning session.",
+  "noMatch": "No matching history records.",
+  "unnamed": "Unnamed Session",
+  "meta": {
+    "model": "Model: {{name}}",
+    "frameworks": "Frameworks: {{count}}",
+    "rounds": "Rounds: {{count}}",
+    "duration": "Duration: {{duration}}",
+    "failures": "Failures: {{count}}",
+    "fallbacks": "Fallbacks: {{count}}"
+  },
+  "clearConfirm": "Confirm clearing all history records?",
+  "load": "Load",
+  "delete": "Delete"
+}

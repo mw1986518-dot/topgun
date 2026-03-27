@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { CSSProperties, Dispatch, SetStateAction } from "react";
 import type { AppConfig, LlmProviderConfig } from "../../../types";
 import { ensureProviderConfig } from "../../../utils/providerConfig";
@@ -13,7 +14,6 @@ interface SettingsApiSectionProps {
 }
 
 function buildProviderId(): string {
-  // 用时间戳 + 随机串生成较短且冲突概率极低的本地 id。
   return `provider_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
 }
 
@@ -24,6 +24,7 @@ export default function SettingsApiSection({
   setShowApiKey,
   inputStyle,
 }: SettingsApiSectionProps) {
+  const { t } = useTranslation("settings");
   const normalizedConfig = ensureProviderConfig(config);
   const selectedProvider =
     normalizedConfig.providers.find(
@@ -56,7 +57,7 @@ export default function SettingsApiSection({
   const addProvider = () => {
     const newProvider: LlmProviderConfig = {
       id: buildProviderId(),
-      name: `供应商 ${normalizedConfig.providers.length + 1}`,
+      name: `${t("provider.label")} ${normalizedConfig.providers.length + 1}`,
       base_url: "",
       api_key: "",
       model: "",
@@ -96,7 +97,7 @@ export default function SettingsApiSection({
   return (
     <div className="space-y-4">
       <h3 className="text-sm font-medium tracking-wide" style={{ color: "var(--color-text-muted)" }}>
-        LLM API 配置
+        {t("llmConfig")}
       </h3>
 
       <ProviderSelector
@@ -116,7 +117,7 @@ export default function SettingsApiSection({
       />
 
       <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
-        每次推演任务只会使用当前选中的一个供应商 + 一个模型，不再自动主备轮转。
+        {t("singleProviderNote")}
       </p>
     </div>
   );

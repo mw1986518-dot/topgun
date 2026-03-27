@@ -1,4 +1,5 @@
-﻿import { Component, type ErrorInfo, type ReactNode } from "react";
+﻿import i18n from "i18next";
+import { Component, type ErrorInfo, type ReactNode } from "react";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -63,16 +64,16 @@ export class ErrorBoundary extends Component<
     return (
       <div className="flex h-screen items-center justify-center p-6 bg-notion-bg">
         <div className="w-full max-w-lg rounded-xl border border-red-500/30 bg-red-500/10 p-6">
-          <h1 className="text-xl font-semibold text-red-300">应用发生错误</h1>
+          <h1 className="text-xl font-semibold text-red-300">{i18n.t("errors:errorBoundary.title")}</h1>
           <p className="mt-2 text-sm text-red-200/90 break-all">
-            {this.state.error?.message ?? "未知错误"}
+            {this.state.error?.message ?? i18n.t("errors:errorBoundary.unknownError")}
           </p>
           <button
             type="button"
             onClick={this.handleRetry}
             className="mt-5 rounded-lg border border-red-300/40 px-4 py-2 text-sm text-red-100 hover:bg-red-500/20 cursor-pointer"
           >
-            重试
+            {i18n.t("errors:errorBoundary.retry")}
           </button>
         </div>
       </div>

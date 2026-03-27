@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { AlertCircle, CheckCircle2, RefreshCcw } from "lucide-react";
 import type { UiError } from "../../hooks/useWorkspaceState";
 
@@ -18,6 +19,7 @@ export default function WorkspaceAlerts({
   actionTip,
   onRetry,
 }: WorkspaceAlertsProps) {
+  const { t } = useTranslation("errors");
   return (
     <>
       {uiError && (
@@ -44,7 +46,7 @@ export default function WorkspaceAlerts({
               }}
             >
               <RefreshCcw size={14} />
-              重试
+              {t("errorBoundary.retry")}
             </button>
           )}
         </div>

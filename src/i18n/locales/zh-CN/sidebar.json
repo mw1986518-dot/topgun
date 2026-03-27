@@ -1,0 +1,10 @@
+{
+  "appName": "顶级思维",
+  "workspace": "推演工作台",
+  "frameworkLibrary": "思维框架库",
+  "localConfig": "本地配置",
+  "sessionDiagnostics": "会话诊断",
+  "ipcOnline": "IPC 在线",
+  "restore": "还原",
+  "language": "语言"
+}
