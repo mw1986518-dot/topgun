@@ -109,7 +109,7 @@ async fn execute_reasoning_inner(app: AppHandle) -> AppResult<()> {
         let state_machine = app.state::<tokio::sync::Mutex<StateMachine>>();
         let mut sm = state_machine.lock().await;
         sm.max_iterations = config.max_iterations.clamp(3, 6);
-        sm.max_iterations.max(1)
+        sm.max_iterations
     };
 
     for round in 1..=max_iterations {

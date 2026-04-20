@@ -43,9 +43,7 @@ describe("ErrorBoundary", () => {
           <button type="button" onClick={() => setFixed(true)}>
             修复组件
           </button>
-          <ErrorBoundary>
-            {fixed ? <div>恢复成功</div> : <AlwaysThrow />}
-          </ErrorBoundary>
+          <ErrorBoundary>{fixed ? <div>恢复成功</div> : <AlwaysThrow />}</ErrorBoundary>
         </>
       );
     }

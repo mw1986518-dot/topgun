@@ -36,9 +36,9 @@ function extractRustEnumVariants(source, enumName) {
     fail(`在 src-tauri/src/state/mod.rs 中找不到 ${enumName} 枚举定义`);
   }
 
-  const variants = [...enumMatch[1].matchAll(/\n\s*([A-Z][A-Za-z0-9_]*)\s*=\s*-?\d+,/g)].map(
-    (item) => item[1],
-  );
+  const variants = [
+    ...enumMatch[1].matchAll(/\n\s*([A-Z][A-Za-z0-9_]*)\s*=\s*-?\d+,/g),
+  ].map((item) => item[1]);
 
   if (variants.length === 0) {
     fail(`${enumName} 枚举未提取到任何成员`);
@@ -86,7 +86,9 @@ function extractRustStructKeys(source, structName) {
 }
 
 function arraysEqual(left, right) {
-  return left.length === right.length && left.every((item, index) => item === right[index]);
+  return (
+    left.length === right.length && left.every((item, index) => item === right[index])
+  );
 }
 
 function sortedUnique(list) {
@@ -107,7 +109,9 @@ function main() {
   }
 
   const tsDiagKeys = sortedUnique(extractTsInterfaceKeys(tsTypes, "SessionDiagnostics"));
-  const rustDiagKeys = sortedUnique(extractRustStructKeys(rustState, "SessionDiagnostics"));
+  const rustDiagKeys = sortedUnique(
+    extractRustStructKeys(rustState, "SessionDiagnostics"),
+  );
 
   if (!arraysEqual(tsDiagKeys, rustDiagKeys)) {
     fail(

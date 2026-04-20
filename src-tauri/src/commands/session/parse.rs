@@ -69,9 +69,7 @@ pub(crate) fn detect_problem_brief_completion(content: &str) -> Option<Completed
         trimmed.to_string()
     };
 
-    Some(CompletedProblemDelivery {
-        brief_markdown,
-    })
+    Some(CompletedProblemDelivery { brief_markdown })
 }
 
 /// 把框架 ID 列表渲染成“推荐专家（人的身份）”说明文本（给 UI 展示用，不下发给各框架 Agent）。
@@ -1272,7 +1270,7 @@ mod tests {
 
     #[test]
     fn identity_experts_panel_is_generated_from_framework_ids() {
-        let panel = build_identity_experts_panel_from_frameworks(&vec![
+        let panel = build_identity_experts_panel_from_frameworks(&[
             "first_principles".to_string(),
             "systems_thinking".to_string(),
         ]);

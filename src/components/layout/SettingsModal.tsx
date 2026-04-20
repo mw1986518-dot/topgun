@@ -49,7 +49,10 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
           className="flex items-center justify-between px-6 py-4"
           style={{ borderBottom: "1px solid var(--color-border)" }}
         >
-          <h2 className="text-xl font-semibold" style={{ color: "var(--color-text-primary)" }}>
+          <h2
+            className="text-xl font-semibold"
+            style={{ color: "var(--color-text-primary)" }}
+          >
             {t("title")}
           </h2>
           <button
@@ -63,7 +66,10 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
 
         <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
           {loading ? (
-            <div className="text-center py-8" style={{ color: "var(--color-text-muted)" }}>
+            <div
+              className="text-center py-8"
+              style={{ color: "var(--color-text-muted)" }}
+            >
               {t("loading", { ns: "common" })}
             </div>
           ) : (

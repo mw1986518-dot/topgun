@@ -16,10 +16,7 @@ interface ErrorBoundaryState {
  * 1) 捕获子组件渲染阶段的异常，防止整个页面白屏。
  * 2) 给用户展示可读的兜底信息，并提供“重试”按钮。
  */
-export class ErrorBoundary extends Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = {
     hasError: false,
     error: null,
@@ -64,7 +61,9 @@ export class ErrorBoundary extends Component<
     return (
       <div className="flex h-screen items-center justify-center p-6 bg-notion-bg">
         <div className="w-full max-w-lg rounded-xl border border-red-500/30 bg-red-500/10 p-6">
-          <h1 className="text-xl font-semibold text-red-300">{i18n.t("errors:errorBoundary.title")}</h1>
+          <h1 className="text-xl font-semibold text-red-300">
+            {i18n.t("errors:errorBoundary.title")}
+          </h1>
           <p className="mt-2 text-sm text-red-200/90 break-all">
             {this.state.error?.message ?? i18n.t("errors:errorBoundary.unknownError")}
           </p>

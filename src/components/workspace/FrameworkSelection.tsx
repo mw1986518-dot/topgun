@@ -61,14 +61,7 @@ function normalizeInitialEditableContext(
       : "";
 
   const reframedContent =
-    briefStart >= 0
-      ? raw
-        .slice(
-          briefStart + briefLabel.length,
-          raw.length,
-        )
-        .trim()
-      : "";
+    briefStart >= 0 ? raw.slice(briefStart + briefLabel.length, raw.length).trim() : "";
 
   return buildEditableReframedContext(originalTopic, reframedContent);
 }
@@ -175,7 +168,9 @@ export default function FrameworkSelection({
           <div className="flex items-center justify-between gap-3 mb-3">
             <div className="flex items-center gap-2" style={{ color: "#F59E0B" }}>
               <Check size={18} />
-              <h4 className="font-bold">{t("frameworkSelection.reshapedProblem").replace("：", "")}</h4>
+              <h4 className="font-bold">
+                {t("frameworkSelection.reshapedProblem").replace("：", "")}
+              </h4>
             </div>
             <button
               type="button"
@@ -186,12 +181,17 @@ export default function FrameworkSelection({
                 border: "1px solid rgba(245, 158, 11, 0.35)",
               }}
             >
-              {editingReframedContext ? t("confirm", { ns: "common" }) : t("frameworkSelection.clickToModify")}
+              {editingReframedContext
+                ? t("confirm", { ns: "common" })
+                : t("frameworkSelection.clickToModify")}
             </button>
           </div>
 
           <p className="text-xs mb-3" style={{ color: "var(--color-text-muted)" }}>
-            {t("frameworkSelection.editHint", { defaultValue: "这里只保留原始问题和 AI 重塑议题。修改后会直接用于后续推演。" })}
+            {t("frameworkSelection.editHint", {
+              defaultValue:
+                "这里只保留原始问题和 AI 重塑议题。修改后会直接用于后续推演。",
+            })}
           </p>
 
           {editingReframedContext ? (
@@ -298,7 +298,11 @@ export default function FrameworkSelection({
             shadow-md active:scale-[0.98] transition-all cursor-pointer glow-accent
             disabled:opacity-50 disabled:cursor-not-allowed
           "
-          style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+          style={{
+            background: "var(--bg-hover)",
+            border: "1px solid var(--border-color)",
+            color: "var(--text-primary)",
+          }}
         >
           {submitting ? (
             <>

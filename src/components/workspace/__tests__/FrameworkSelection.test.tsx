@@ -87,7 +87,7 @@ describe("FrameworkSelection", () => {
     );
 
     // Counter should show 1 selected
-    expect(screen.getByText("1")).toBeInTheDocument();
+    expect(screen.getByText(/已选择.*1/)).toBeInTheDocument();
   });
 
   it("toggles framework selection on click", async () => {
@@ -103,11 +103,11 @@ describe("FrameworkSelection", () => {
 
     // Click on "系统思维" card
     await user.click(screen.getByText("系统思维"));
-    expect(screen.getByText("1")).toBeInTheDocument();
+    expect(screen.getByText(/已选择.*1/)).toBeInTheDocument();
 
     // Click again to deselect
     await user.click(screen.getByText("系统思维"));
-    expect(screen.getByText("0")).toBeInTheDocument();
+    expect(screen.getByText(/已选择.*0/)).toBeInTheDocument();
   });
 
   it("disables submit when no frameworks selected", () => {
@@ -179,7 +179,10 @@ describe("FrameworkSelection", () => {
     await user.click(screen.getByText("点击修改"));
     const promptBox = screen.getByRole("textbox");
     await user.clear(promptBox);
-    await user.type(promptBox, "原始问题：{enter}A{enter}{enter}AI 生成的重塑议题：{enter}B");
+    await user.type(
+      promptBox,
+      "原始问题：{enter}A{enter}{enter}AI 生成的重塑议题：{enter}B",
+    );
 
     const submitButton = screen.getByText("锁定阵容并推演");
     await user.click(submitButton);

@@ -4,5 +4,5 @@
  */
 import { vi } from "vitest";
 
-export const listen = vi.fn().mockResolvedValue(() => { });
+export const listen = vi.fn().mockResolvedValue(() => {});
 export type UnlistenFn = () => void;

@@ -620,7 +620,6 @@ pub struct StateMachine {
     pub diagnostics: SessionDiagnostics,
 
     // ========== 落地方案生成相关字段 ==========
-
     /// 落地方案相关问题列表
     #[serde(default)]
     pub action_plan_questions: Vec<ActionPlanQuestion>,
@@ -637,6 +636,9 @@ pub struct StateMachine {
     #[serde(default)]
     pub action_plan_in_progress: bool,
 }
+
+/// 最大 IPC 日志条数，防止长会话内存无限增长。
+const MAX_IPC_LOGS: usize = 500;
 
 impl StateMachine {
     /// Create a new state machine
@@ -826,8 +828,12 @@ impl StateMachine {
         self.diagnostics.increment_consensus_fallback();
     }
 
-    /// Add IPC log entry
+    /// Add IPC log entry.
+    /// 自动限制容量为 [`MAX_IPC_LOGS`]，超出时移除最早条目（FIFO）。
     pub fn log(&mut self, entry: IpcLogEntry) {
+        if self.ipc_logs.len() >= MAX_IPC_LOGS {
+            self.ipc_logs.remove(0);
+        }
         self.ipc_logs.push(entry);
     }
 
@@ -888,12 +894,12 @@ impl StateMachine {
         answer: String,
     ) -> Option<&ActionPlanQuestion> {
         self.action_plan_answers.insert(key, answer);
-        self.current_action_plan_question_index = self
-            .current_action_plan_question_index
-            .saturating_add(1);
+        self.current_action_plan_question_index =
+            self.current_action_plan_question_index.saturating_add(1);
 
         if self.current_action_plan_question_index < self.action_plan_questions.len() {
-            self.action_plan_questions.get(self.current_action_plan_question_index)
+            self.action_plan_questions
+                .get(self.current_action_plan_question_index)
         } else {
             self.log_info("ActionPlan", "All questions answered");
             None
@@ -918,7 +924,8 @@ impl StateMachine {
         if self.action_plan_in_progress
             && self.current_action_plan_question_index < self.action_plan_questions.len()
         {
-            self.action_plan_questions.get(self.current_action_plan_question_index)
+            self.action_plan_questions
+                .get(self.current_action_plan_question_index)
         } else {
             None
         }
@@ -932,7 +939,10 @@ impl StateMachine {
 
     /// 获取落地方案进度（已回答/总数）
     pub fn get_action_plan_progress(&self) -> (usize, usize) {
-        (self.current_action_plan_question_index, self.action_plan_questions.len())
+        (
+            self.current_action_plan_question_index,
+            self.action_plan_questions.len(),
+        )
     }
 }
 
@@ -945,6 +955,6 @@ impl Default for StateMachine {
 fn current_millis() -> u64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .unwrap_or_default()
+        .expect("system clock is before UNIX epoch")
         .as_millis() as u64
 }

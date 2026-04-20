@@ -9,6 +9,7 @@
 TopGun 旨在帮助用户对复杂议题进行深度思考和决策推演。通过模拟多个不同思维框架的"智能体"同时对同一议题进行分析、质疑、修正，最终达成共识或识别风险1。
 
 核心能力：
+
 - **议题澄清**：通过多轮追问，帮助用户厘清真正的问题本质
 - **多视角推演**：不同思维框架从各自角度审视问题，发现盲点
 - **异议与修正**：智能体之间相互质疑、补充，避免单一视角的局限
@@ -54,11 +55,14 @@ MIT
 请查看 [Releases](https://github.com/mw1986518-dot/topgun/releases) 页面获取下载链接。
 
 ### Windows
+
 - `TopGun_0.1.2_x64-setup.exe` - NSIS 安装程序
 - `TopGun_0.1.2_x64_en-US.msi` - MSI 安装程序
 
 ### macOS (Apple Silicon)
+
 - `TopGun_0.1.2_aarch64.dmg` - DMG 安装包
 
 ### macOS (Intel)
+
 - `TopGun_0.1.2_x64.dmg` - DMG 安装包

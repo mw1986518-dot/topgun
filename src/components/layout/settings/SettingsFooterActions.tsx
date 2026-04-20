@@ -36,7 +36,9 @@ export default function SettingsFooterActions({
           }}
         >
           <Activity size={18} />
-          {testing && testingMode === "provider" ? t("testing", { ns: "common" }) : t("testConnection")}
+          {testing && testingMode === "provider"
+            ? t("testing", { ns: "common" })
+            : t("testConnection")}
         </button>
       </div>
 
@@ -55,7 +57,11 @@ export default function SettingsFooterActions({
           onClick={() => void onSave()}
           disabled={saving || testing}
           className="px-4 py-2 rounded-lg text-[var(--text-primary)] disabled:opacity-50 cursor-pointer transition-all glow-accent"
-          style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+          style={{
+            background: "var(--bg-hover)",
+            border: "1px solid var(--border-color)",
+            color: "var(--text-primary)",
+          }}
         >
           {saving ? t("saving", { ns: "common" }) : t("save", { ns: "common" })}
         </button>

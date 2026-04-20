@@ -52,16 +52,15 @@ export default function IpcConsole({
   }, [visibleLogs]);
 
   return (
-    <div className={`min-w-0 bg-gray-900 rounded-lg overflow-hidden font-mono text-sm ${className}`}>
+    <div
+      className={`min-w-0 bg-gray-900 rounded-lg overflow-hidden font-mono text-sm ${className}`}
+    >
       <div className="px-4 py-2 border-b border-gray-700 bg-gray-800 flex items-center justify-between gap-3">
         <span className="text-gray-400">{title}</span>
         {headerActions && <div className="flex items-center gap-2">{headerActions}</div>}
       </div>
 
-      <div
-        ref={bodyRef}
-        className={`${bodyClassName} overflow-y-auto overflow-x-hidden`}
-      >
+      <div ref={bodyRef} className={`${bodyClassName} overflow-y-auto overflow-x-hidden`}>
         {visibleLogs.length === 0 ? (
           <div className="text-gray-500">等待系统日志...</div>
         ) : (
@@ -70,17 +69,28 @@ export default function IpcConsole({
             const messageText = normalizeInlineText(log.message);
 
             return (
-              <div key={index} className="flex items-center gap-2 min-w-0 whitespace-nowrap">
-                <span className="text-gray-500 shrink-0">{formatTime(log.timestamp)}</span>
+              <div
+                key={index}
+                className="flex items-center gap-2 min-w-0 whitespace-nowrap"
+              >
+                <span className="text-gray-500 shrink-0">
+                  {formatTime(log.timestamp)}
+                </span>
                 <span
                   className={`uppercase shrink-0 ${levelColors[log.level as keyof typeof levelColors] || "text-gray-400"}`}
                 >
                   [{log.level}]
                 </span>
-                <span className="text-purple-400 shrink-0 max-w-[8rem] truncate" title={sourceLabel}>
+                <span
+                  className="text-purple-400 shrink-0 max-w-[8rem] truncate"
+                  title={sourceLabel}
+                >
                   {sourceLabel}
                 </span>
-                <span className="text-gray-300 min-w-0 flex-1 truncate" title={log.message}>
+                <span
+                  className="text-gray-300 min-w-0 flex-1 truncate"
+                  title={log.message}
+                >
                   {messageText}
                 </span>
               </div>

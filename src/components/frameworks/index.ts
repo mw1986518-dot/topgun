@@ -1,1 +1,1 @@
-export { default as FrameworksView } from './FrameworksView';
+export { default as FrameworksView } from "./FrameworksView";

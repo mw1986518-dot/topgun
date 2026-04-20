@@ -1,13 +1,5 @@
 import { useTranslation } from "react-i18next";
-import {
-  History,
-  Loader2,
-  Search,
-  RefreshCcw,
-  Trash2,
-  Upload,
-  X,
-} from "lucide-react";
+import { History, Loader2, Search, RefreshCcw, Trash2, Upload, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { SessionHistoryEntry } from "../../types";
 
@@ -103,10 +95,7 @@ export default function HistoryPanel({
         >
           <div className="flex items-center gap-2">
             <History size={18} style={{ color: "var(--color-accent)" }} />
-            <h3
-              className="font-semibold"
-              style={{ color: "var(--color-text-primary)" }}
-            >
+            <h3 className="font-semibold" style={{ color: "var(--color-text-primary)" }}>
               {t("title")}
             </h3>
           </div>
@@ -163,10 +152,7 @@ export default function HistoryPanel({
               style={{ color: "var(--color-text-primary)" }}
             />
           </div>
-          <div
-            className="mt-2 text-xs"
-            style={{ color: "var(--color-text-muted)" }}
-          >
+          <div className="mt-2 text-xs" style={{ color: "var(--color-text-muted)" }}>
             {t("count", { current: filteredItems.length, total: items.length })}
           </div>
         </div>
@@ -217,12 +203,9 @@ export default function HistoryPanel({
               const busyLoad = loadingEntryId === entry.id;
               const busyDelete = deletingEntryId === entry.id;
               const state = entry.state;
-              const totalDuration =
-                state.diagnostics?.phase_durations_ms?.total_ms ?? 0;
-              const totalFailures =
-                state.diagnostics?.failure_counts?.total ?? 0;
-              const totalFallbacks =
-                state.diagnostics?.fallback_counts?.total ?? 0;
+              const totalDuration = state.diagnostics?.phase_durations_ms?.total_ms ?? 0;
+              const totalFailures = state.diagnostics?.failure_counts?.total ?? 0;
+              const totalFallbacks = state.diagnostics?.fallback_counts?.total ?? 0;
 
               return (
                 <div
@@ -240,18 +223,13 @@ export default function HistoryPanel({
                     >
                       {state.topic || t("unnamed")}
                     </div>
-                    <div
-                      className="text-xs"
-                      style={{ color: "var(--color-text-muted)" }}
-                    >
-                      {formatDate(entry.created_at)} · {t("meta.model", { name: entry.model })} ·
-                      {t("meta.frameworks", { count: state.selected_frameworks.length })} ·
-                      {t("meta.rounds", { count: state.iteration_count || 1 })}
+                    <div className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+                      {formatDate(entry.created_at)} ·{" "}
+                      {t("meta.model", { name: entry.model })} ·
+                      {t("meta.frameworks", { count: state.selected_frameworks.length })}{" "}
+                      ·{t("meta.rounds", { count: state.iteration_count || 1 })}
                     </div>
-                    <div
-                      className="text-xs"
-                      style={{ color: "var(--color-text-muted)" }}
-                    >
+                    <div className="text-xs" style={{ color: "var(--color-text-muted)" }}>
                       {t("meta.duration", { duration: formatDuration(totalDuration) })} ·
                       {t("meta.failures", { count: totalFailures })} ·
                       {t("meta.fallbacks", { count: totalFallbacks })}

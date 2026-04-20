@@ -66,8 +66,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
   const [activeVersion, setActiveVersion] = useState("1.0");
 
   const agentKeys = state?.agents ? Object.keys(state.agents) : [];
-  const hasAgentsData =
-    agentKeys.length > 0 && !!state.agents[agentKeys[0]]?.content;
+  const hasAgentsData = agentKeys.length > 0 && !!state.agents[agentKeys[0]]?.content;
 
   const renderContent = () => {
     if (activeVersion === "0.1") {
@@ -255,9 +254,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
                 <div
                   className="absolute left-[19px] top-3 w-3 h-3 rounded-full transition-all"
                   style={{
-                    background: isActive
-                      ? version.dotColor
-                      : "var(--color-bg-tertiary)",
+                    background: isActive ? version.dotColor : "var(--color-bg-tertiary)",
                     border: `2px solid ${isActive ? version.dotColor : "var(--color-border)"}`,
                     transform: isActive ? "scale(1.3)" : "scale(1)",
                     boxShadow: isActive ? `0 0 8px ${version.dotColor}40` : "none",
@@ -267,9 +264,7 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
                 <div
                   className="rounded-lg px-3 py-2.5 transition-all text-left"
                   style={{
-                    background: isActive
-                      ? "var(--color-bg-tertiary)"
-                      : "transparent",
+                    background: isActive ? "var(--color-bg-tertiary)" : "transparent",
                     borderLeft: isActive
                       ? `3px solid ${version.dotColor}`
                       : "3px solid transparent",
@@ -321,10 +316,14 @@ export default function IterationView({ state, frameworks }: IterationViewProps)
               color: "var(--color-text-muted)",
             }}
           >
-            {activeVersion === "final" ? t("iterationView.versionFinal") : t("iterationView.version", { version: activeVersion })}
+            {activeVersion === "final"
+              ? t("iterationView.versionFinal")
+              : t("iterationView.version", { version: activeVersion })}
           </span>
         </div>
-        <div className="p-6 flex-1 overflow-y-auto custom-scrollbar">{renderContent()}</div>
+        <div className="p-6 flex-1 overflow-y-auto custom-scrollbar">
+          {renderContent()}
+        </div>
       </div>
     </div>
   );

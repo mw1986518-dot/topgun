@@ -1,4 +1,4 @@
-﻿use super::analysis::{
+use super::analysis::{
     examination_parse_mode_name, parse_examination_response_with_repair, truncate_context,
     ExaminationParseMode,
 };
@@ -83,6 +83,7 @@ pub(crate) async fn run_divergence(
                     sm.update_agent_status(&framework_id, AgentStatus::Pass);
                     sm.log_info("Agent", &format!("{} divergence finished", framework_name));
                     let _ = app_clone.emit("state-update", &*sm);
+                    Ok(())
                 }
                 Err(error) => {
                     let state_machine = app_clone.state::<tokio::sync::Mutex<StateMachine>>();
@@ -98,15 +99,27 @@ pub(crate) async fn run_divergence(
                         &format!("{} divergence failed: {}", framework_name, error),
                     );
                     let _ = app_clone.emit("state-update", &*sm);
+                    Err(format!("{}: {}", framework_name, error))
                 }
             }
         }));
     }
 
+    let mut errors = Vec::new();
     for task in futures {
-        if let Err(error) = task.await {
-            eprintln!("Divergence task panicked: {:?}", error);
+        match task.await {
+            Ok(Ok(())) => {}
+            Ok(Err(msg)) => errors.push(msg),
+            Err(join_err) => errors.push(format!("Task panicked: {}", join_err)),
         }
+    }
+    if !errors.is_empty() {
+        let state_machine = app.state::<tokio::sync::Mutex<StateMachine>>();
+        let mut sm = state_machine.lock().await;
+        sm.log_error(
+            "Engine",
+            &format!("Divergence had {} failures", errors.len()),
+        );
     }
 
     let state_machine = app.state::<tokio::sync::Mutex<StateMachine>>();
@@ -244,6 +257,7 @@ pub(crate) async fn run_examination(
                     }
 
                     let _ = app_clone.emit("state-update", &*sm);
+                    Ok(())
                 }
                 Err(error) => {
                     let state_machine = app_clone.state::<tokio::sync::Mutex<StateMachine>>();
@@ -252,15 +266,27 @@ pub(crate) async fn run_examination(
                     sm.add_objection(&framework_id, format!("Examination failed: {}", error));
                     sm.update_agent_status(&framework_id, AgentStatus::Objection);
                     let _ = app_clone.emit("state-update", &*sm);
+                    Err(format!("{}: {}", framework_name, error))
                 }
             }
         }));
     }
 
+    let mut errors = Vec::new();
     for task in futures {
-        if let Err(error) = task.await {
-            eprintln!("Examination task panicked: {:?}", error);
+        match task.await {
+            Ok(Ok(())) => {}
+            Ok(Err(msg)) => errors.push(msg),
+            Err(join_err) => errors.push(format!("Task panicked: {}", join_err)),
         }
+    }
+    if !errors.is_empty() {
+        let state_machine = app.state::<tokio::sync::Mutex<StateMachine>>();
+        let mut sm = state_machine.lock().await;
+        sm.log_error(
+            "Engine",
+            &format!("Examination had {} failures", errors.len()),
+        );
     }
 
     let state_machine = app.state::<tokio::sync::Mutex<StateMachine>>();
@@ -363,6 +389,7 @@ pub(crate) async fn run_patching(
 
                     sm.log_info("Agent", &format!("{} patching finished", framework_name));
                     let _ = app_clone.emit("state-update", &*sm);
+                    Ok(())
                 }
                 Err(error) => {
                     let state_machine = app_clone.state::<tokio::sync::Mutex<StateMachine>>();
@@ -374,15 +401,24 @@ pub(crate) async fn run_patching(
                         &format!("{} patching failed, keep original: {}", framework_name, error),
                     );
                     let _ = app_clone.emit("state-update", &*sm);
+                    Err(format!("{}: {}", framework_name, error))
                 }
             }
         }));
     }
 
+    let mut errors = Vec::new();
     for task in futures {
-        if let Err(error) = task.await {
-            eprintln!("Patching task panicked: {:?}", error);
+        match task.await {
+            Ok(Ok(())) => {}
+            Ok(Err(msg)) => errors.push(msg),
+            Err(join_err) => errors.push(format!("Task panicked: {}", join_err)),
         }
+    }
+    if !errors.is_empty() {
+        let state_machine = app.state::<tokio::sync::Mutex<StateMachine>>();
+        let mut sm = state_machine.lock().await;
+        sm.log_error("Engine", &format!("Patching had {} failures", errors.len()));
     }
 
     let state_machine = app.state::<tokio::sync::Mutex<StateMachine>>();
@@ -613,4 +649,3 @@ impl Synthesizer {
         md
     }
 }
-

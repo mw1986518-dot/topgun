@@ -24,7 +24,10 @@ export default function SessionDiagnosticsModal({
           className="flex items-center justify-between px-6 py-4"
           style={{ borderBottom: "1px solid var(--color-border)" }}
         >
-          <h2 className="text-xl font-semibold" style={{ color: "var(--color-text-primary)" }}>
+          <h2
+            className="text-xl font-semibold"
+            style={{ color: "var(--color-text-primary)" }}
+          >
             会话诊断
           </h2>
           <button

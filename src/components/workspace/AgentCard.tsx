@@ -23,7 +23,7 @@ const statusStyles: Record<AgentStatus, { color: string; bg: string }> = {
 };
 
 export default function AgentCard({ agent, framework }: AgentCardProps) {
-  const { t } = useTranslation('agent');
+  const { t } = useTranslation("agent");
   const [isExpanded, setIsExpanded] = useState(false);
   const statusStyle = statusStyles[agent.status];
   const statusLabel = t(`status.${agent.status}`);
@@ -51,7 +51,9 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-2.5">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base flex-shrink-0">{framework?.icon || "\u{1F9E0}"}</span>
+            <span className="text-base flex-shrink-0">
+              {framework?.icon || "\u{1F9E0}"}
+            </span>
             <span
               className="text-[13px] font-medium truncate"
               style={{ color: "var(--text-primary)" }}
@@ -62,13 +64,20 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
 
           <div className="flex items-center gap-1.5 flex-shrink-0">
             {agent.status === "thinking" && (
-              <Loader2 size={12} className="animate-spin" style={{ color: statusStyle.color }} />
+              <Loader2
+                size={12}
+                className="animate-spin"
+                style={{ color: statusStyle.color }}
+              />
             )}
             <div
               className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium"
               style={{ background: statusStyle.bg, color: statusStyle.color }}
             >
-              <div className="w-1 h-1 rounded-full" style={{ background: statusStyle.color }} />
+              <div
+                className="w-1 h-1 rounded-full"
+                style={{ background: statusStyle.color }}
+              />
               {statusLabel}
             </div>
           </div>
@@ -92,9 +101,9 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
               }}
             >
               {agent.status === "thinking" ? (
-                <span className="animate-shimmer">{t('thinking')}</span>
+                <span className="animate-shimmer">{t("thinking")}</span>
               ) : (
-                t('waitingAwakening')
+                t("waitingAwakening")
               )}
             </div>
           )}
@@ -103,9 +112,15 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
         {/* Objections */}
         {agent.objections.length > 0 && (
           <div className="px-4 pb-3">
-            <div className="flex items-center gap-1.5 text-[11px]" style={{ color: "var(--accent-red)" }}>
-              <div className="w-1 h-1 rounded-full" style={{ background: "var(--accent-red)" }} />
-              {t('objectionsPending', { count: agent.objections.length })}
+            <div
+              className="flex items-center gap-1.5 text-[11px]"
+              style={{ color: "var(--accent-red)" }}
+            >
+              <div
+                className="w-1 h-1 rounded-full"
+                style={{ background: "var(--accent-red)" }}
+              />
+              {t("objectionsPending", { count: agent.objections.length })}
             </div>
           </div>
         )}
@@ -113,7 +128,10 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
         {/* Expand button */}
         {agent.content && (
           <button
-            onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsExpanded(true);
+            }}
             className="absolute top-2.5 right-3 p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
             style={{
               color: "var(--text-muted)",
@@ -147,14 +165,20 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
             >
               <div className="flex items-center gap-3">
                 <span className="text-xl">{framework?.icon || "\u{1F9E0}"}</span>
-                <span className="text-[15px] font-medium" style={{ color: "var(--text-primary)" }}>
+                <span
+                  className="text-[15px] font-medium"
+                  style={{ color: "var(--text-primary)" }}
+                >
                   {framework?.name || agent.framework_id}
                 </span>
                 <div
                   className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium"
                   style={{ background: statusStyle.bg, color: statusStyle.color }}
                 >
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: statusStyle.color }} />
+                  <div
+                    className="w-1.5 h-1.5 rounded-full"
+                    style={{ background: statusStyle.color }}
+                  />
                   {statusLabel}
                 </div>
               </div>
@@ -173,7 +197,7 @@ export default function AgentCard({ agent, framework }: AgentCardProps) {
               style={{ background: "var(--bg-primary)" }}
             >
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {agent.content || t('noContent')}
+                {agent.content || t("noContent")}
               </ReactMarkdown>
             </div>
           </div>

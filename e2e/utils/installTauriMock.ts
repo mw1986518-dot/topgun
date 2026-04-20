@@ -11,7 +11,7 @@ export async function installTauriMock(page: Page) {
     type MockMessage = { role: string; content: string };
 
     const now = () => Date.now();
-    const clone = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
+    const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
     const frameworks = [
       {
@@ -466,8 +466,12 @@ export async function installTauriMock(page: Page) {
         state.action_plan_answers[key] = answer;
         state.current_action_plan_question_index += 1;
         emitStateUpdate();
-        if (state.current_action_plan_question_index < state.action_plan_questions.length) {
-          return clone(state.action_plan_questions[state.current_action_plan_question_index]);
+        if (
+          state.current_action_plan_question_index < state.action_plan_questions.length
+        ) {
+          return clone(
+            state.action_plan_questions[state.current_action_plan_question_index],
+          );
         }
         return null;
       }
@@ -532,7 +536,9 @@ export async function installTauriMock(page: Page) {
     (window as unknown as { isTauri?: boolean }).isTauri = true;
     (
       window as unknown as {
-        __TAURI_EVENT_PLUGIN_INTERNALS__?: { unregisterListener: typeof unregisterEventBinding };
+        __TAURI_EVENT_PLUGIN_INTERNALS__?: {
+          unregisterListener: typeof unregisterEventBinding;
+        };
       }
     ).__TAURI_EVENT_PLUGIN_INTERNALS__ = {
       unregisterListener: unregisterEventBinding,

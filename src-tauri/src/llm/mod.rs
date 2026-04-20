@@ -1,4 +1,4 @@
-﻿//! LLM Client module
+//! LLM Client module
 //!
 //! Handles communication with LLM APIs, including:
 //! - HTTP client setup with retry logic
@@ -109,7 +109,7 @@ impl From<&crate::config::AppConfig> for LLMClientConfig {
             .selected_provider()
             .map(|p| p.api_key.clone())
             .unwrap_or_default();
-            
+
         Self {
             base_url: active_base_url,
             api_key: active_api_key,
@@ -167,6 +167,74 @@ impl LLMClient {
             && !base_url.ends_with("/v1")
     }
 
+    /// Whether this base URL should use Anthropic Messages API protocol.
+    fn is_anthropic_base(base_url: &str) -> bool {
+        (base_url.contains("kimi.com") || base_url.contains("anthropic.com"))
+            && !base_url.contains("chat/completions")
+    }
+
+    /// Build Anthropic request body: extract system message as top-level field.
+    fn build_anthropic_body(
+        model: &str,
+        messages: Vec<Message>,
+        temperature: Option<f32>,
+        max_tokens: Option<u32>,
+    ) -> serde_json::Value {
+        let mut system_texts: Vec<String> = Vec::new();
+        let mut anthropic_messages: Vec<serde_json::Value> = Vec::new();
+
+        for msg in messages {
+            if msg.role == "system" {
+                system_texts.push(msg.content);
+            } else {
+                anthropic_messages.push(serde_json::json!({
+                    "role": msg.role,
+                    "content": msg.content,
+                }));
+            }
+        }
+
+        let mut body = serde_json::json!({
+            "model": model,
+            "messages": anthropic_messages,
+        });
+
+        if !system_texts.is_empty() {
+            body["system"] = serde_json::json!(system_texts.join("\n"));
+        }
+
+        if let Some(t) = temperature {
+            body["temperature"] = serde_json::json!(t);
+        }
+
+        // Anthropic requires max_tokens; default to 4096 if not provided.
+        body["max_tokens"] = serde_json::json!(max_tokens.unwrap_or(4096));
+
+        body
+    }
+
+    /// Parse Anthropic Messages API response into our LLMResponse format.
+    fn parse_anthropic_response(value: &serde_json::Value) -> AppResult<LLMResponse> {
+        let content = value["content"]
+            .as_array()
+            .and_then(|arr| arr.first())
+            .and_then(|item| item["text"].as_str())
+            .unwrap_or("");
+
+        let id = value["id"].as_str().unwrap_or("anthropic-req");
+        let stop_reason = value["stop_reason"].as_str().unwrap_or("end_turn");
+
+        Ok(LLMResponse {
+            id: Some(id.to_string()),
+            choices: vec![Choice {
+                index: 0,
+                message: Some(Message::assistant(content.to_string())),
+                delta: None,
+                finish_reason: Some(stop_reason.to_string()),
+            }],
+        })
+    }
+
     /// Execute one provider + one model request path (with retry/backoff).
     #[allow(clippy::too_many_arguments)]
     async fn generate_content_once(
@@ -180,6 +248,7 @@ impl LLMClient {
         allow_internal_retry: bool,
     ) -> AppResult<LLMResponse> {
         let is_gemini = Self::is_gemini_base(base_url);
+        let is_anthropic = Self::is_anthropic_base(base_url);
 
         let request_body = if is_gemini {
             // 把通用消息格式映射到 Gemini 原生 JSON 结构。
@@ -224,6 +293,8 @@ impl LLMClient {
             }
 
             body
+        } else if is_anthropic {
+            Self::build_anthropic_body(model, messages, temperature, max_tokens)
         } else {
             serde_json::to_value(LLMRequest {
                 model: model.to_string(),
@@ -259,11 +330,19 @@ impl LLMClient {
             );
         }
 
+        if is_anthropic {
+            url = Self::build_url_for_base(base_url, "v1/messages");
+        }
+
         loop {
             attempts += 1;
 
             let mut request_builder = self.client.post(&url);
-            if !url.contains("?key=") {
+            if is_anthropic {
+                request_builder = request_builder
+                    .header("x-api-key", api_key)
+                    .header("anthropic-version", "2023-06-01");
+            } else if !url.contains("?key=") {
                 request_builder =
                     request_builder.header("Authorization", format!("Bearer {}", api_key));
             }
@@ -303,6 +382,17 @@ impl LLMClient {
                                     finish_reason: Some("stop".to_string()),
                                 }],
                             });
+                        }
+
+                        if is_anthropic {
+                            let anthropic_resp: serde_json::Value =
+                                resp.json().await.map_err(|e| {
+                                    AppError::LlmParse(format!(
+                                        "Failed to parse Anthropic response: {}",
+                                        e
+                                    ))
+                                })?;
+                            return Self::parse_anthropic_response(&anthropic_resp);
                         }
 
                         let llm_response: LLMResponse = resp.json().await.map_err(|e| {

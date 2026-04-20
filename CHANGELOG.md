@@ -21,6 +21,21 @@
 
 ---
 
+## [1.0.1] - 2026-04-20
+
+### 新增
+
+- 支持 Anthropic Messages API 协议（Kimi Coding 等）
+- 新增 `is_anthropic_base` 自动检测逻辑
+- 新增 `build_anthropic_body` 和 `parse_anthropic_response` 转换函数
+
+### 变更
+
+- LLM 客户端请求构建逻辑重构，支持三种协议：OpenAI、Gemini、Anthropic
+- Anthropic 端点使用 `x-api-key` 认证头和 `anthropic-version` 版本头
+
+---
+
 ## [0.1.0] - 2025-03-26
 
 ### 新增

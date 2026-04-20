@@ -38,7 +38,10 @@ export default function WorkspaceReasoningPanel({
       <div className="flex items-center justify-between mt-4">
         <div className="flex items-center gap-2">
           <Cpu style={{ color: "var(--color-accent)" }} size={24} />
-          <h3 className="text-xl font-bold" style={{ color: "var(--color-text-primary)" }}>
+          <h3
+            className="text-xl font-bold"
+            style={{ color: "var(--color-text-primary)" }}
+          >
             {t("reasoningPanel.title")}{" "}
             {viewOverride !== null && (
               <span
@@ -62,8 +65,9 @@ export default function WorkspaceReasoningPanel({
             <button
               key={tab}
               onClick={() => onTabChange(tab)}
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer ${activeTab === tab ? "shadow-sm" : ""
-                }`}
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+                activeTab === tab ? "shadow-sm" : ""
+              }`}
               style={{
                 background:
                   activeTab === tab ? "var(--color-bg-secondary)" : "transparent",
@@ -91,7 +95,10 @@ export default function WorkspaceReasoningPanel({
 
       <div className="rounded-xl flex items-center justify-between px-6 py-4 glass">
         <div className="flex items-center gap-3">
-          <span className="text-[15px] font-bold" style={{ color: "var(--color-accent)" }}>
+          <span
+            className="text-[15px] font-bold"
+            style={{ color: "var(--color-accent)" }}
+          >
             {t("reasoningPanel.round", { count: state.iteration_count || 1 })}
           </span>
           <span className="text-sm" style={{ color: "var(--color-text-secondary)" }}>

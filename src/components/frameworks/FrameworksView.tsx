@@ -94,7 +94,11 @@ export default function FrameworksView() {
           <button
             onClick={handleNewFramework}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-[var(--text-primary)] hover:opacity-90 cursor-pointer"
-            style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+            style={{
+              background: "var(--bg-hover)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-primary)",
+            }}
           >
             <Plus size={18} />
             {t("createFramework")}
@@ -121,7 +125,9 @@ export default function FrameworksView() {
                     <span className="text-2xl">{framework.icon}</span>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-notion-text">{framework.name}</h3>
-                      <p className="text-sm text-notion-text-gray mt-1">{framework.description}</p>
+                      <p className="text-sm text-notion-text-gray mt-1">
+                        {framework.description}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -163,8 +169,12 @@ export default function FrameworksView() {
                     <div className="flex items-start gap-3">
                       <span className="text-2xl">{framework.icon}</span>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-notion-text">{framework.name}</h3>
-                        <p className="text-sm text-notion-text-gray mt-1">{framework.description}</p>
+                        <h3 className="font-semibold text-notion-text">
+                          {framework.name}
+                        </h3>
+                        <p className="text-sm text-notion-text-gray mt-1">
+                          {framework.description}
+                        </p>
                       </div>
                       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
@@ -199,7 +209,9 @@ export default function FrameworksView() {
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-notion-border">
               <h2 className="text-xl font-semibold text-notion-text">
-                {editingFramework.id.startsWith("custom-") ? t("createFramework") : t("editFramework")}
+                {editingFramework.id.startsWith("custom-")
+                  ? t("createFramework")
+                  : t("editFramework")}
               </h2>
               <button
                 onClick={() => setShowEditor(false)}
@@ -212,7 +224,9 @@ export default function FrameworksView() {
             <div className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-notion-text mb-1">{t("fields.name")}</label>
+                  <label className="block text-sm font-medium text-notion-text mb-1">
+                    {t("fields.name")}
+                  </label>
                   <input
                     type="text"
                     value={editingFramework.name}
@@ -229,7 +243,9 @@ export default function FrameworksView() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-notion-text mb-1">{t("fields.icon")}</label>
+                  <label className="block text-sm font-medium text-notion-text mb-1">
+                    {t("fields.icon")}
+                  </label>
                   <input
                     type="text"
                     value={editingFramework.icon}
@@ -247,12 +263,17 @@ export default function FrameworksView() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-notion-text mb-1">{t("fields.description")}</label>
+                <label className="block text-sm font-medium text-notion-text mb-1">
+                  {t("fields.description")}
+                </label>
                 <input
                   type="text"
                   value={editingFramework.description}
                   onChange={(e) =>
-                    setEditingFramework({ ...editingFramework, description: e.target.value })
+                    setEditingFramework({
+                      ...editingFramework,
+                      description: e.target.value,
+                    })
                   }
                   className="w-full px-3 py-2 rounded-lg focus:outline-none"
                   style={{
@@ -264,11 +285,16 @@ export default function FrameworksView() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-notion-text mb-1">{t("fields.systemPrompt")}</label>
+                <label className="block text-sm font-medium text-notion-text mb-1">
+                  {t("fields.systemPrompt")}
+                </label>
                 <textarea
                   value={editingFramework.system_prompt}
                   onChange={(e) =>
-                    setEditingFramework({ ...editingFramework, system_prompt: e.target.value })
+                    setEditingFramework({
+                      ...editingFramework,
+                      system_prompt: e.target.value,
+                    })
                   }
                   rows={8}
                   className="w-full px-3 py-2 rounded-lg font-mono text-sm focus:outline-none"
@@ -291,7 +317,11 @@ export default function FrameworksView() {
               <button
                 onClick={handleSaveFramework}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-[var(--text-primary)] hover:opacity-90 cursor-pointer"
-                style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+                style={{
+                  background: "var(--bg-hover)",
+                  border: "1px solid var(--border-color)",
+                  color: "var(--text-primary)",
+                }}
               >
                 <Check size={18} />
                 {t("save", { ns: "common" })}
@@ -303,4 +333,3 @@ export default function FrameworksView() {
     </div>
   );
 }
-

@@ -143,7 +143,94 @@ mod tests {
             ..Default::default()
         };
         let client = LLMClient::new(config).unwrap();
-        let future = client.generate_content("gpt-4o-mini", vec![Message::user("ping")], None, Some(10));
+        let future =
+            client.generate_content("gpt-4o-mini", vec![Message::user("ping")], None, Some(10));
         drop(future);
+    }
+
+    #[test]
+    fn test_is_anthropic_base() {
+        assert!(LLMClient::is_anthropic_base("https://api.kimi.com/coding/"));
+        assert!(LLMClient::is_anthropic_base("https://api.anthropic.com/v1"));
+        assert!(!LLMClient::is_anthropic_base("https://api.openai.com/v1"));
+        assert!(!LLMClient::is_anthropic_base(
+            "https://api.kimi.com/v1/chat/completions"
+        ));
+    }
+
+    #[test]
+    fn test_build_anthropic_body() {
+        let messages = vec![
+            Message::system("You are a helpful assistant."),
+            Message::user("Hello!"),
+            Message::assistant("Hi there!"),
+        ];
+        let body =
+            LLMClient::build_anthropic_body("kimi-for-coding", messages, Some(0.7), Some(1024));
+
+        assert_eq!(body["model"], "kimi-for-coding");
+        let temp = body["temperature"].as_f64().unwrap();
+        assert!((temp - 0.7).abs() < 0.001);
+        assert_eq!(body["max_tokens"], 1024);
+        assert_eq!(body["system"], "You are a helpful assistant.");
+
+        let anthropic_messages = body["messages"].as_array().unwrap();
+        assert_eq!(anthropic_messages.len(), 2);
+        assert_eq!(anthropic_messages[0]["role"], "user");
+        assert_eq!(anthropic_messages[0]["content"], "Hello!");
+        assert_eq!(anthropic_messages[1]["role"], "assistant");
+        assert_eq!(anthropic_messages[1]["content"], "Hi there!");
+    }
+
+    #[test]
+    fn test_build_anthropic_body_default_max_tokens() {
+        let messages = vec![Message::user("Ping")];
+        let body = LLMClient::build_anthropic_body("claude-3-5-sonnet", messages, None, None);
+        assert_eq!(body["max_tokens"], 4096);
+        assert!(!body.as_object().unwrap().contains_key("temperature"));
+    }
+
+    #[test]
+    fn test_parse_anthropic_response() {
+        let json = serde_json::json!({
+            "id": "msg_01AbCdEfGhIjKlMnOpQrStUv",
+            "type": "message",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Hello! How can I help you today?"
+                }
+            ],
+            "model": "kimi-for-coding",
+            "stop_reason": "end_turn"
+        });
+
+        let response = LLMClient::parse_anthropic_response(&json).unwrap();
+        assert_eq!(response.id, Some("msg_01AbCdEfGhIjKlMnOpQrStUv".to_string()));
+        assert_eq!(response.choices.len(), 1);
+        assert_eq!(
+            response.choices[0].message.as_ref().unwrap().content,
+            "Hello! How can I help you today?"
+        );
+        assert_eq!(response.choices[0].finish_reason, Some("end_turn".to_string()));
+    }
+
+    #[test]
+    fn test_parse_anthropic_response_empty_content() {
+        let json = serde_json::json!({
+            "id": "msg_empty",
+            "type": "message",
+            "role": "assistant",
+            "content": [],
+            "model": "kimi-for-coding",
+            "stop_reason": null
+        });
+
+        let response = LLMClient::parse_anthropic_response(&json).unwrap();
+        assert_eq!(
+            response.choices[0].message.as_ref().unwrap().content,
+            ""
+        );
     }
 }

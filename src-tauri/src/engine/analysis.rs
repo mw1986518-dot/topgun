@@ -513,13 +513,23 @@ pub(crate) fn parse_examination_response_with_repair(
             .map(|item| normalize_objection_text(item))
             .filter(|item| !item.is_empty())
             .collect();
-        let (has_major_objection, final_items) =
-            finalize_objection_decision(parsed.has_major_objection, items, &parsed.review_summary);
-        return (
-            has_major_objection,
-            final_items,
-            ExaminationParseMode::StrictJson,
-        );
+        // 如果所有字段都是默认值，说明 serde 只是用默认值兜底了不匹配的键名，
+        // 应回退到 loose 解析尝试修复键名（如 camelCase）。
+        let looks_like_real_match = parsed.has_major_objection.is_some()
+            || !parsed.objection_items.is_empty()
+            || !parsed.review_summary.is_empty();
+        if looks_like_real_match {
+            let (has_major_objection, final_items) = finalize_objection_decision(
+                parsed.has_major_objection,
+                items,
+                &parsed.review_summary,
+            );
+            return (
+                has_major_objection,
+                final_items,
+                ExaminationParseMode::StrictJson,
+            );
+        }
     }
 
     if let Some(value) = parse_json_value_loose(&json_block) {

@@ -1,4 +1,4 @@
-#![allow(clippy::module_inception)]
+#![allow(clippy::module_inception, clippy::field_reassign_with_default)]
 
 #[cfg(test)]
 mod tests {
@@ -33,7 +33,11 @@ mod tests {
         config.providers[0].api_key = "test-key".to_string();
         config.providers[0].model = "gpt-4o-mini".to_string();
         assert!(config.validate().is_err());
-        assert!(config.validate().unwrap_err().to_string().contains("Base URL is required"));
+        assert!(config
+            .validate()
+            .unwrap_err()
+            .to_string()
+            .contains("Base URL is required"));
     }
 
     #[test]
@@ -43,7 +47,11 @@ mod tests {
         config.providers[0].api_key = String::new();
         config.providers[0].model = "gpt-4o-mini".to_string();
         assert!(config.validate().is_err());
-        assert!(config.validate().unwrap_err().to_string().contains("API Key is required"));
+        assert!(config
+            .validate()
+            .unwrap_err()
+            .to_string()
+            .contains("API Key is required"));
     }
 
     #[test]
@@ -144,6 +152,7 @@ mod tests {
             enable_retry: false,
             max_retries: 5,
             retry_delay_ms: 2000,
+            max_iterations: 3,
             selected_provider_id: "provider_openai".to_string(),
             providers: vec![
                 LlmProviderConfig {
@@ -172,7 +181,10 @@ mod tests {
         assert_eq!(deserialized.retry_delay_ms, 2000);
         assert_eq!(deserialized.providers.len(), 2);
         assert_eq!(deserialized.selected_provider_id, "provider_openai");
-        assert_eq!(deserialized.providers[0].base_url, "https://api.example.com");
+        assert_eq!(
+            deserialized.providers[0].base_url,
+            "https://api.example.com"
+        );
         assert_eq!(deserialized.providers[0].api_key, "test-key");
         assert_eq!(deserialized.providers[0].model, "gpt-4o-mini");
     }
@@ -202,6 +214,7 @@ mod tests {
             enable_retry: true,
             max_retries: 3,
             retry_delay_ms: 1000,
+            max_iterations: 3,
             providers: vec![],
             selected_provider_id: String::new(),
         };

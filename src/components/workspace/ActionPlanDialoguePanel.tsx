@@ -81,7 +81,10 @@ export default function ActionPlanDialoguePanel({
               >
                 {t("actionPlan.title")}
               </h3>
-              <p className="text-sm mt-1" style={{ color: "var(--color-text-secondary)" }}>
+              <p
+                className="text-sm mt-1"
+                style={{ color: "var(--color-text-secondary)" }}
+              >
                 {t("actionPlan.description")}
               </p>
             </div>
@@ -99,7 +102,9 @@ export default function ActionPlanDialoguePanel({
       {/* 进度条 */}
       <div className="px-6 py-3 border-b" style={{ borderColor: "var(--color-border)" }}>
         <div className="flex items-center justify-between text-sm mb-2">
-          <span style={{ color: "var(--color-text-secondary)" }}>{t("actionPlan.progressLabel")}</span>
+          <span style={{ color: "var(--color-text-secondary)" }}>
+            {t("actionPlan.progressLabel")}
+          </span>
           <span style={{ color: "var(--color-text-primary)" }}>
             {t("actionPlan.progress", { current: answeredCount, total: totalQuestions })}
           </span>
@@ -112,7 +117,9 @@ export default function ActionPlanDialoguePanel({
             className="h-full rounded-full transition-all duration-300"
             style={{
               width: `${(answeredCount / totalQuestions) * 100}%`,
-              background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)",
+              background: "var(--bg-hover)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-primary)",
             }}
           />
         </div>
@@ -198,7 +205,8 @@ export default function ActionPlanDialoguePanel({
             disabled={!input.trim() || submitting || generating}
             className="px-5 py-3 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             style={{
-              background: "var(--bg-hover)", border: "1px solid var(--border-color)",
+              background: "var(--bg-hover)",
+              border: "1px solid var(--border-color)",
               color: "white",
             }}
           >

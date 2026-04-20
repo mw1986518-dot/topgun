@@ -93,10 +93,19 @@ export default function SessionDiagnosticsCard({
   }, [data.reasoning_runs, data.last_run_completed_at]);
 
   const phaseRows = [
-    { labelKey: "diagnostics.phases.divergence", value: data.phase_durations_ms.divergence_ms },
-    { labelKey: "diagnostics.phases.examination", value: data.phase_durations_ms.examination_ms },
+    {
+      labelKey: "diagnostics.phases.divergence",
+      value: data.phase_durations_ms.divergence_ms,
+    },
+    {
+      labelKey: "diagnostics.phases.examination",
+      value: data.phase_durations_ms.examination_ms,
+    },
     { labelKey: "diagnostics.phases.patch", value: data.phase_durations_ms.patch_ms },
-    { labelKey: "diagnostics.phases.consensus", value: data.phase_durations_ms.consensus_ms },
+    {
+      labelKey: "diagnostics.phases.consensus",
+      value: data.phase_durations_ms.consensus_ms,
+    },
   ];
 
   return (
@@ -119,7 +128,9 @@ export default function SessionDiagnosticsCard({
             </h4>
           </div>
           <div className="text-xs" style={{ color: "var(--color-text-muted)" }}>
-            {t("diagnostics.lastRunCompleted", { date: formatDate(data.last_run_completed_at) })}
+            {t("diagnostics.lastRunCompleted", {
+              date: formatDate(data.last_run_completed_at),
+            })}
           </div>
         </div>
       )}
@@ -178,7 +189,7 @@ export default function SessionDiagnosticsCard({
               divergence: data.failure_counts.divergence,
               examination: data.failure_counts.examination,
               patch: data.failure_counts.patch,
-              consensus: data.failure_counts.consensus
+              consensus: data.failure_counts.consensus,
             })}
           </div>
         </div>
@@ -207,7 +218,7 @@ export default function SessionDiagnosticsCard({
             {t("diagnostics.fallbackBreakdown", {
               parserRepair: data.fallback_counts.examination_parser_repair,
               textFallback: data.fallback_counts.examination_text_fallback,
-              consensusFallback: data.fallback_counts.consensus_synthesizer_fallback
+              consensusFallback: data.fallback_counts.consensus_synthesizer_fallback,
             })}
           </div>
         </div>
@@ -224,7 +235,13 @@ export default function SessionDiagnosticsCard({
             }}
           >
             <div className="text-xs" style={{ color: "var(--color-text-muted)" }}>
-              {t(row.labelKey as "diagnostics.phases.divergence" | "diagnostics.phases.examination" | "diagnostics.phases.patch" | "diagnostics.phases.consensus")}
+              {t(
+                row.labelKey as
+                  | "diagnostics.phases.divergence"
+                  | "diagnostics.phases.examination"
+                  | "diagnostics.phases.patch"
+                  | "diagnostics.phases.consensus",
+              )}
             </div>
             <div
               className="text-sm font-medium mt-0.5"

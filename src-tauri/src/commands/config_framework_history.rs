@@ -1,4 +1,4 @@
-﻿//! Tauri command handlers for settings, framework management,
+//! Tauri command handlers for settings, framework management,
 //! history management, and file export.
 
 use crate::config::{load_config, save_config, AppConfig};
@@ -44,7 +44,9 @@ pub async fn test_llm_connection(
         .find_provider(requested_id)
         .ok_or_else(|| AppError::ConfigValidation("指定供应商不存在".to_string()))
         .map_err(String::from)?;
-    provider.validate_connection_fields().map_err(String::from)?;
+    provider
+        .validate_connection_fields()
+        .map_err(String::from)?;
 
     let mut llm_config = LLMClientConfig::from(&config);
     llm_config.timeout_seconds = 15;

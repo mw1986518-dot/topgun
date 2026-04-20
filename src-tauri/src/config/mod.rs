@@ -183,7 +183,9 @@ impl AppConfig {
     }
 
     pub fn get_active_model(&self) -> String {
-        self.selected_provider().map(|p| p.model.clone()).unwrap_or_default()
+        self.selected_provider()
+            .map(|p| p.model.clone())
+            .unwrap_or_default()
     }
 
     /// Validate the configuration
@@ -422,9 +424,10 @@ pub fn load_config() -> AppResult<AppConfig> {
             let old_base = val.get("base_url").and_then(|v| v.as_str()).unwrap_or("");
             let old_api = val.get("api_key").and_then(|v| v.as_str()).unwrap_or("");
             let old_model = val.get("model").and_then(|v| v.as_str()).unwrap_or("");
-            
+
             if !old_base.is_empty() || !old_api.is_empty() || !old_model.is_empty() {
-                let decrypted_api = decrypt_from_storage(old_api).unwrap_or_else(|_| old_api.to_string());
+                let decrypted_api =
+                    decrypt_from_storage(old_api).unwrap_or_else(|_| old_api.to_string());
                 config.providers.push(LlmProviderConfig {
                     id: "provider_1".to_string(),
                     name: "默认供应商".to_string(),

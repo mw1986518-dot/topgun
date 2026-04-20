@@ -3,7 +3,9 @@
     "allow": [
       "Bash(sed -i 's/idea-refinery/topgun/g' package-lock.json)",
       "Bash(sed -i 's/idea-refinery/topgun/g' src-tauri/Cargo.lock)",
-      "Bash(sed -i 's/idea_refinery_lib/topgun_lib/g' src-tauri/Cargo.lock)"
+      "Bash(sed -i 's/idea_refinery_lib/topgun_lib/g' src-tauri/Cargo.lock)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

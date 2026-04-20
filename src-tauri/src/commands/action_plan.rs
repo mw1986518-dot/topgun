@@ -35,8 +35,7 @@ pub async fn start_action_plan(window: Window) -> Result<Vec<ActionPlanQuestion>
     };
 
     // 检查是否有共识输出
-    if context.consensus_output.is_none() || context.consensus_output.as_ref().unwrap().is_empty()
-    {
+    if context.consensus_output.is_none() || context.consensus_output.as_ref().unwrap().is_empty() {
         return Err("请先生成共识报告后再生成落地方案。".to_string());
     }
 
@@ -53,7 +52,10 @@ pub async fn start_action_plan(window: Window) -> Result<Vec<ActionPlanQuestion>
     {
         let mut sm = state_machine.lock().await;
         sm.start_action_plan(questions.clone());
-        sm.log_info("ActionPlan", &format!("Generated {} questions", questions.len()));
+        sm.log_info(
+            "ActionPlan",
+            &format!("Generated {} questions", questions.len()),
+        );
         window
             .emit("state-update", &*sm)
             .map_err(|e| AppError::EventEmit(e.to_string()))?;
@@ -75,14 +77,17 @@ pub async fn answer_action_plan_question(
     let (next_question, state_snapshot) = {
         let mut sm = state_machine.lock().await;
         sm.action_plan_answers.insert(key.clone(), answer.clone());
-        sm.current_action_plan_question_index = sm.current_action_plan_question_index.saturating_add(1);
+        sm.current_action_plan_question_index =
+            sm.current_action_plan_question_index.saturating_add(1);
         sm.log_info(
             "ActionPlan",
             &format!("Answered question '{}': {}", key, answer),
         );
 
         let next = if sm.current_action_plan_question_index < sm.action_plan_questions.len() {
-            sm.action_plan_questions.get(sm.current_action_plan_question_index).cloned()
+            sm.action_plan_questions
+                .get(sm.current_action_plan_question_index)
+                .cloned()
         } else {
             sm.log_info("ActionPlan", "All questions answered");
             None
@@ -125,9 +130,10 @@ pub async fn generate_action_plan(window: Window) -> Result<String, String> {
     let llm_config = LLMClientConfig::from(&config);
     let client = LLMClient::new(llm_config)?;
 
-    let action_plan = generate_action_plan_content(&client, &config.get_active_model(), &context, &answers)
-        .await
-        .map_err(|e| format!("生成落地方案失败: {}", e))?;
+    let action_plan =
+        generate_action_plan_content(&client, &config.get_active_model(), &context, &answers)
+            .await
+            .map_err(|e| format!("生成落地方案失败: {}", e))?;
 
     // 3. 更新状态
     {
@@ -179,6 +185,7 @@ pub async fn cancel_action_plan(window: Window) -> Result<(), String> {
 
 /// 全量上下文
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 struct ActionPlanContext {
     original_topic: String,
     problem_brief_messages: Vec<crate::state::ProblemBriefMessage>,
@@ -315,7 +322,7 @@ fn build_question_generation_user_prompt(context: &ActionPlanContext) -> String 
         for msg in &context.problem_brief_messages {
             prompt.push_str(&format!("- {} ({}): {}\n", msg.role, msg.role, msg.content));
         }
-        prompt.push_str("\n");
+        prompt.push('\n');
     }
 
     if let Some(ref reframed) = context.reframed_issue {
@@ -413,7 +420,7 @@ fn build_action_plan_user_prompt(
     for (key, value) in answers {
         prompt.push_str(&format!("- {}: {}\n", key, value));
     }
-    prompt.push_str("\n");
+    prompt.push('\n');
 
     prompt.push_str("请根据以上信息生成可执行的落地方案。");
     prompt
@@ -422,6 +429,7 @@ fn build_action_plan_user_prompt(
 // ========== 响应解析 ==========
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)]
 struct QuestionGenerationResponse {
     #[serde(default)]
     user_goal: String,
@@ -432,6 +440,7 @@ struct QuestionGenerationResponse {
 }
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)]
 struct ActionToImplement {
     #[serde(default)]
     action: String,

@@ -48,14 +48,14 @@ npm run tauri dev
 
 ### 常用命令
 
-| 命令 | 说明 |
-|------|------|
-| `npm run dev` | 启动前端开发服务器 |
-| `npm run tauri dev` | 启动完整应用（开发模式） |
-| `npm test` | 运行单元测试 |
-| `npm run lint` | 代码检查 |
-| `npm run format` | 格式化代码 |
-| `npm run tauri build` | 构建发布版本 |
+| 命令                  | 说明                     |
+| --------------------- | ------------------------ |
+| `npm run dev`         | 启动前端开发服务器       |
+| `npm run tauri dev`   | 启动完整应用（开发模式） |
+| `npm test`            | 运行单元测试             |
+| `npm run lint`        | 代码检查                 |
+| `npm run format`      | 格式化代码               |
+| `npm run tauri build` | 构建发布版本             |
 
 ## 代码规范
 
@@ -91,6 +91,7 @@ chore:    构建/工具相关
 ```
 
 示例：
+
 - `feat: 添加暗色主题支持`
 - `fix: 修复推演状态不同步问题`
 - `docs: 更新安装文档`
@@ -117,6 +118,7 @@ topgun/
 ## 需要帮助？
 
 如有问题，可以：
+
 - 在 Issues 中提问
 - 查看现有代码了解实现方式
 

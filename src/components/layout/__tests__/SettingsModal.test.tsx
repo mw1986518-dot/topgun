@@ -51,9 +51,7 @@ describe("SettingsModal", () => {
 
     render(<SettingsModal onClose={vi.fn()} />);
 
-    expect(
-      await screen.findByDisplayValue("https://api.openai.com"),
-    ).toBeInTheDocument();
+    expect(await screen.findByDisplayValue("https://api.openai.com")).toBeInTheDocument();
     expect(mockInvoke).toHaveBeenCalledWith("get_settings");
   });
 

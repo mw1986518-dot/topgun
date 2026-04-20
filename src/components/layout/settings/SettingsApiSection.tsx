@@ -45,7 +45,9 @@ export default function SettingsApiSection({
     setConfig((previous) => {
       const normalized = ensureProviderConfig(previous);
       const providers = normalized.providers.map((provider) =>
-        provider.id === normalized.selected_provider_id ? { ...provider, [key]: value } : provider,
+        provider.id === normalized.selected_provider_id
+          ? { ...provider, [key]: value }
+          : provider,
       );
       return {
         ...normalized,
@@ -96,7 +98,10 @@ export default function SettingsApiSection({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-medium tracking-wide" style={{ color: "var(--color-text-muted)" }}>
+      <h3
+        className="text-sm font-medium tracking-wide"
+        style={{ color: "var(--color-text-muted)" }}
+      >
         {t("llmConfig")}
       </h3>
 

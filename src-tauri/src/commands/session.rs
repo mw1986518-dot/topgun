@@ -14,8 +14,8 @@ mod prompts;
 
 use self::parse::{
     build_divergence_user_prompt_from_delivery, build_identity_experts_panel_from_frameworks,
-    detect_problem_brief_completion,
-    generate_framework_recommendations_from_brief, infer_frameworks_from_text,
+    detect_problem_brief_completion, generate_framework_recommendations_from_brief,
+    infer_frameworks_from_text,
 };
 use self::prompts::{
     build_problem_brief_bootstrap_user_prompt, build_problem_brief_context_user_prompt,
@@ -335,7 +335,8 @@ pub async fn generate_problem_brief_delivery(window: Window) -> Result<(), Strin
     .await;
     if recommended_frameworks.is_empty() {
         // 兜底：如果第二次调用失败，再从简报正文中做一次轻量关键词推断。
-        recommended_frameworks = infer_frameworks_from_text(&delivery.brief_markdown, &valid_framework_ids);
+        recommended_frameworks =
+            infer_frameworks_from_text(&delivery.brief_markdown, &valid_framework_ids);
     }
     recommended_frameworks.truncate(5);
     let recommended_experts_panel =

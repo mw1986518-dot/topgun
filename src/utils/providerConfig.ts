@@ -28,8 +28,11 @@ export function findProviderById(
 }
 
 export function ensureProviderConfig(config: AppConfig): AppConfig {
-  const providers = config.providers.length > 0 ? config.providers : [createDefaultProvider()];
-  const selectedExists = providers.some((provider) => provider.id === config.selected_provider_id);
+  const providers =
+    config.providers.length > 0 ? config.providers : [createDefaultProvider()];
+  const selectedExists = providers.some(
+    (provider) => provider.id === config.selected_provider_id,
+  );
   return {
     ...config,
     providers,

@@ -109,7 +109,11 @@ export default function TopicInput({ onSubmit, disabled }: TopicInputProps) {
             onClick={handleSubmit}
             disabled={!topic.trim() || disabled || submitting}
             className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-[var(--text-primary)] font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] cursor-pointer glow-accent"
-            style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+            style={{
+              background: "var(--bg-hover)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-primary)",
+            }}
           >
             {submitting ? (
               t("processing", { ns: "common" })

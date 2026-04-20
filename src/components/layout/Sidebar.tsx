@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Settings, PenTool, Layers, Activity, Maximize2, Minimize2, Cpu, Globe } from "lucide-react";
+import {
+  Settings,
+  PenTool,
+  Layers,
+  Activity,
+  Maximize2,
+  Minimize2,
+  Cpu,
+  Globe,
+} from "lucide-react";
 import type { IpcLog, SessionDiagnostics } from "../../types";
 import IpcConsole from "../workspace/IpcConsole";
 import SettingsModal from "./SettingsModal";
@@ -52,11 +61,18 @@ export default function Sidebar({
         >
           <div
             className="flex items-center justify-center w-7 h-7 rounded-lg"
-            style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+            style={{
+              background: "var(--bg-hover)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-primary)",
+            }}
           >
             <Cpu size={16} className="text-[var(--text-primary)]" />
           </div>
-          <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+          <span
+            className="text-sm font-semibold"
+            style={{ color: "var(--text-primary)" }}
+          >
             {tSidebar("appName")}
           </span>
         </div>
@@ -78,14 +94,22 @@ export default function Sidebar({
                     color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
                   }}
                 >
-                  <Icon size={16} style={{ color: isActive ? "var(--accent-blue)" : "var(--text-muted)" }} />
+                  <Icon
+                    size={16}
+                    style={{
+                      color: isActive ? "var(--accent-blue)" : "var(--text-muted)",
+                    }}
+                  />
                   <span className="text-[13px] font-medium">{item.label}</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--border-color)" }}>
+          <div
+            className="mt-3 pt-3"
+            style={{ borderTop: "1px solid var(--border-color)" }}
+          >
             <button
               onClick={() => setShowSettings(true)}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition-colors cursor-pointer"
@@ -100,7 +124,9 @@ export default function Sidebar({
               style={{ color: "var(--text-secondary)" }}
             >
               <Activity size={16} style={{ color: "var(--text-muted)" }} />
-              <span className="text-[13px] font-medium">{tSidebar("sessionDiagnostics")}</span>
+              <span className="text-[13px] font-medium">
+                {tSidebar("sessionDiagnostics")}
+              </span>
             </button>
           </div>
 
@@ -136,7 +162,9 @@ export default function Sidebar({
               style={{ color: "var(--text-muted)" }}
             >
               <Globe size={18} />
-              <span className="text-[16px] font-medium">{languageNames[i18n.language as SupportedLanguage] || i18n.language}</span>
+              <span className="text-[16px] font-medium">
+                {languageNames[i18n.language as SupportedLanguage] || i18n.language}
+              </span>
             </button>
             {showLangMenu && (
               <div
@@ -144,7 +172,7 @@ export default function Sidebar({
                 style={{
                   background: "var(--bg-secondary)",
                   border: "1px solid var(--border-color)",
-                  minWidth: "80px"
+                  minWidth: "80px",
                 }}
               >
                 {supportedLanguages.map((lang) => (
@@ -153,8 +181,12 @@ export default function Sidebar({
                     onClick={() => changeLanguage(lang)}
                     className="w-full px-4 py-2 text-left text-[16px] font-medium transition-colors cursor-pointer"
                     style={{
-                      color: i18n.language === lang ? "var(--text-primary)" : "var(--text-secondary)",
-                      background: i18n.language === lang ? "var(--bg-hover)" : "transparent"
+                      color:
+                        i18n.language === lang
+                          ? "var(--text-primary)"
+                          : "var(--text-secondary)",
+                      background:
+                        i18n.language === lang ? "var(--bg-hover)" : "transparent",
                     }}
                   >
                     {languageNames[lang]}
@@ -179,7 +211,10 @@ export default function Sidebar({
                 style={{ background: "var(--accent-green)" }}
               />
             </div>
-            <span className="text-[16px] font-medium" style={{ color: "var(--text-muted)" }}>
+            <span
+              className="text-[16px] font-medium"
+              style={{ color: "var(--text-muted)" }}
+            >
               {tSidebar("ipcOnline")}
             </span>
           </div>

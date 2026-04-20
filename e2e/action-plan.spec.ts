@@ -130,7 +130,7 @@ test("@action-plan 用户可切换查看共识报告/落地方案", async ({ pag
   await expect(page.locator("h3").filter({ hasText: "📋 落地方案" })).toBeVisible();
 });
 
-test.skip("@action-plan 用户可取消参数收集流程", async ({ page }) => {
+test.skip("@action-plan 用户可取消参数收集流程", async ({ page: _page }) => {
   // 跳过：取消按钮的 E2E 测试需要进一步调试选择器
   // 该功能在前端单元测试中已覆盖
 });

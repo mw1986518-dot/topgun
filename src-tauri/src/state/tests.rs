@@ -364,7 +364,10 @@ mod tests {
         // 回答第一个问题
         let next = sm.answer_action_plan_question("budget".to_string(), "8000元".to_string());
         assert!(next.is_some());
-        assert_eq!(sm.action_plan_answers.get("budget"), Some(&"8000元".to_string()));
+        assert_eq!(
+            sm.action_plan_answers.get("budget"),
+            Some(&"8000元".to_string())
+        );
         assert_eq!(sm.current_action_plan_question_index, 1);
 
         // 回答第二个问题
@@ -388,7 +391,9 @@ mod tests {
     #[test]
     fn test_state_machine_cancel_action_plan() {
         let mut sm = StateMachine::new();
-        sm.start_action_plan(vec![ActionPlanQuestion::new("test", "Test?", "Reason", "Action")]);
+        sm.start_action_plan(vec![ActionPlanQuestion::new(
+            "test", "Test?", "Reason", "Action",
+        )]);
 
         assert!(sm.action_plan_in_progress);
 
@@ -428,9 +433,7 @@ mod tests {
         // 没有问题时，不认为完成
         assert!(!sm.is_action_plan_questions_complete());
 
-        let questions = vec![
-            ActionPlanQuestion::new("q1", "问题1", "原因1", "行动1"),
-        ];
+        let questions = vec![ActionPlanQuestion::new("q1", "问题1", "原因1", "行动1")];
         sm.start_action_plan(questions);
 
         // 还没回答，不完成
@@ -470,8 +473,11 @@ mod tests {
     #[test]
     fn test_state_machine_start_session_clears_action_plan() {
         let mut sm = StateMachine::new();
-        sm.start_action_plan(vec![ActionPlanQuestion::new("test", "Test?", "Reason", "Action")]);
-        sm.action_plan_answers.insert("key".to_string(), "value".to_string());
+        sm.start_action_plan(vec![ActionPlanQuestion::new(
+            "test", "Test?", "Reason", "Action",
+        )]);
+        sm.action_plan_answers
+            .insert("key".to_string(), "value".to_string());
         sm.set_action_plan("方案".to_string());
 
         sm.start_session("新话题");

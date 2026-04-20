@@ -35,13 +35,13 @@ export default function WorkspaceTopNav({
   onOpenHistory,
   onReset,
 }: WorkspaceTopNavProps) {
-  const { t } = useTranslation('workspace');
+  const { t } = useTranslation("workspace");
 
   const steps = [
-    { id: -1, label: t('phase.input'), icon: Target },
-    { id: 0, label: t('phase.problemReshaping'), icon: Boxes },
-    { id: 2, label: t('phase.multiAgent'), icon: Zap },
-    { id: 4, label: t('phase.consensus'), icon: Flag },
+    { id: -1, label: t("phase.input"), icon: Target },
+    { id: 0, label: t("phase.problemReshaping"), icon: Boxes },
+    { id: 2, label: t("phase.multiAgent"), icon: Zap },
+    { id: 4, label: t("phase.consensus"), icon: Flag },
   ] as const;
   return (
     <div
@@ -74,18 +74,26 @@ export default function WorkspaceTopNav({
               }}
             >
               <div
-                className={`flex items-center gap-2 px-3 py-2 font-medium transition-colors ${isActive
+                className={`flex items-center gap-2 px-3 py-2 font-medium transition-colors ${
+                  isActive
                     ? "text-[var(--color-accent)]"
                     : isClickable
                       ? "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
                       : "text-[var(--color-text-muted)]"
-                  }`}
+                }`}
               >
                 <Icon size={20} />
                 <span className="text-[18px]">{step.label}</span>
               </div>
               {index < steps.length - 1 && (
-                <ChevronRight size={20} style={{ color: "var(--color-text-muted)", marginLeft: "6px", marginRight: "6px" }} />
+                <ChevronRight
+                  size={20}
+                  style={{
+                    color: "var(--color-text-muted)",
+                    marginLeft: "6px",
+                    marginRight: "6px",
+                  }}
+                />
               )}
             </div>
           );
@@ -99,11 +107,15 @@ export default function WorkspaceTopNav({
             disabled={!canRunReasoning}
             className="flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium text-[var(--text-primary)] rounded-lg disabled:opacity-50 transition-all cursor-pointer glow-accent"
             style={{
-              background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)",
+              background: "var(--bg-hover)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-primary)",
             }}
           >
             <Play size={16} fill="currentColor" />
-            {isReasoning || backendReasoningRunning ? t('topNav.running') : t('topNav.startReasoning')}
+            {isReasoning || backendReasoningRunning
+              ? t("topNav.running")
+              : t("topNav.startReasoning")}
           </button>
         )}
         <button
@@ -111,10 +123,10 @@ export default function WorkspaceTopNav({
           className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ color: "var(--color-text-secondary)" }}
           disabled={busy}
-          title={t('topNav.openHistory')}
+          title={t("topNav.openHistory")}
         >
           <History size={16} />
-          {t('topNav.history')}
+          {t("topNav.history")}
         </button>
         <div className="w-px h-4 mx-1" style={{ background: "var(--color-border)" }} />
         <button
@@ -123,10 +135,9 @@ export default function WorkspaceTopNav({
           className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-red-400 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
         >
           <Square size={14} fill="currentColor" />
-          {t('reset', { ns: 'common' })}
+          {t("reset", { ns: "common" })}
         </button>
       </div>
     </div>
   );
 }
-

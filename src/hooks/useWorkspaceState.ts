@@ -166,13 +166,7 @@ export function useWorkspaceState() {
    */
   const withActionGuard = useCallback(
     async (
-      key:
-        | "start"
-        | "briefchat"
-        | "briefgenerate"
-        | "select"
-        | "reasoning"
-        | "reset",
+      key: "start" | "briefchat" | "briefgenerate" | "select" | "reasoning" | "reset",
       action: () => Promise<void>,
     ): Promise<boolean> => {
       if (actionLockRef.current || busy) return false;
@@ -220,7 +214,6 @@ export function useWorkspaceState() {
     },
     [withActionGuard],
   );
-
 
   const handleFrameworkSelect = useCallback(
     async (frameworkIds: string[], customUserPrompt?: string) => {
@@ -293,4 +286,3 @@ export function useWorkspaceState() {
     handleReset,
   };
 }
-

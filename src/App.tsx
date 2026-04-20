@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import { Sidebar } from './components/layout';
-import { Workspace } from './components/workspace';
-import { FrameworksView } from './components/frameworks';
-import type { IpcLog, SessionDiagnostics } from './types';
+import { useState } from "react";
+import { Sidebar } from "./components/layout";
+import { Workspace } from "./components/workspace";
+import { FrameworksView } from "./components/frameworks";
+import type { IpcLog, SessionDiagnostics } from "./types";
 
 function App() {
-  const [currentView, setCurrentView] = useState<'workspace' | 'frameworks'>('workspace');
+  const [currentView, setCurrentView] = useState<"workspace" | "frameworks">("workspace");
   const [ipcLogs, setIpcLogs] = useState<IpcLog[]>([]);
-  const [diagnostics, setDiagnostics] = useState<SessionDiagnostics | undefined>(undefined);
+  const [diagnostics, setDiagnostics] = useState<SessionDiagnostics | undefined>(
+    undefined,
+  );
 
   return (
     <div className="flex h-screen bg-notion-bg p-4 box-border relative z-0">
@@ -20,13 +22,13 @@ function App() {
         />
 
         <main className="flex-1 overflow-hidden h-full flex flex-col">
-          {currentView === 'workspace' && (
+          {currentView === "workspace" && (
             <Workspace
               onIpcLogsChange={setIpcLogs}
               onDiagnosticsChange={setDiagnostics}
             />
           )}
-          {currentView === 'frameworks' && <FrameworksView />}
+          {currentView === "frameworks" && <FrameworksView />}
         </main>
       </div>
     </div>

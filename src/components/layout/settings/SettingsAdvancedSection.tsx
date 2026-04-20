@@ -20,8 +20,14 @@ export default function SettingsAdvancedSection({
   };
 
   return (
-    <div className="space-y-4 pt-4" style={{ borderTop: "1px solid var(--color-border)" }}>
-      <h3 className="text-sm font-medium tracking-wide" style={{ color: "var(--color-text-muted)" }}>
+    <div
+      className="space-y-4 pt-4"
+      style={{ borderTop: "1px solid var(--color-border)" }}
+    >
+      <h3
+        className="text-sm font-medium tracking-wide"
+        style={{ color: "var(--color-text-muted)" }}
+      >
         {t("advanced")}
       </h3>
 
@@ -87,7 +93,10 @@ export default function SettingsAdvancedSection({
             type="number"
             value={config.max_iterations}
             onChange={(event) =>
-              updateConfig("max_iterations", Math.min(6, Math.max(3, parseInt(event.target.value, 10) || 3)))
+              updateConfig(
+                "max_iterations",
+                Math.min(6, Math.max(3, parseInt(event.target.value, 10) || 3)),
+              )
             }
             min={3}
             max={6}

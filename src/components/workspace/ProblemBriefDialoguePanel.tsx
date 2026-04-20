@@ -49,7 +49,7 @@ export default function ProblemBriefDialoguePanel({
   return (
     <div
       className="rounded-2xl p-0 overflow-hidden animate-fade-in-up glass flex flex-col"
-      style={{ height: 'calc(100vh - 120px)' }}
+      style={{ height: "calc(100vh - 120px)" }}
     >
       <div
         className="px-6 py-4 border-b shrink-0"
@@ -111,15 +111,15 @@ export default function ProblemBriefDialoguePanel({
                 style={
                   isUser
                     ? {
-                      background: "rgba(255, 255, 255, 0.08)",
-                      border: "1px solid var(--color-border)",
-                      color: "var(--color-text-primary)",
-                    }
+                        background: "rgba(255, 255, 255, 0.08)",
+                        border: "1px solid var(--color-border)",
+                        color: "var(--color-text-primary)",
+                      }
                     : {
-                      background: "var(--color-bg-secondary)",
-                      border: "1px solid var(--color-border)",
-                      color: "var(--color-text-primary)",
-                    }
+                        background: "var(--color-bg-secondary)",
+                        border: "1px solid var(--color-border)",
+                        color: "var(--color-text-primary)",
+                      }
                 }
               >
                 {item.content}
@@ -186,7 +186,11 @@ export default function ProblemBriefDialoguePanel({
             onClick={handleGenerateBrief}
             disabled={submitting || generating || completed}
             className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium text-[var(--text-primary)] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-            style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+            style={{
+              background: "var(--bg-hover)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-primary)",
+            }}
           >
             {generating ? (
               <>
@@ -205,7 +209,11 @@ export default function ProblemBriefDialoguePanel({
             onClick={handleSend}
             disabled={!draft.trim() || submitting || generating || completed}
             className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium text-[var(--text-primary)] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-            style={{ background: "var(--bg-hover)", border: "1px solid var(--border-color)", color: "var(--text-primary)" }}
+            style={{
+              background: "var(--bg-hover)",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-primary)",
+            }}
           >
             {submitting ? (
               <>
@@ -224,4 +232,3 @@ export default function ProblemBriefDialoguePanel({
     </div>
   );
 }
-
